@@ -34,7 +34,7 @@ const Home = () => {
       </Head>
       <Container className={classes.root}>
         <Grid container direction="column" spacing={3}>
-          <Grid item>
+          {/* <Grid item>
             <Paper className={classes.headingContainer}>
               <Typography
                 variant="h3"
@@ -44,7 +44,7 @@ const Home = () => {
                 Our Trip to Italy
               </Typography>
             </Paper>
-          </Grid>
+          </Grid> */}
           <Grid item>
             <Grid container>
               <Grid item md={3} xs={12}>

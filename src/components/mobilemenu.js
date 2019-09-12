@@ -1,8 +1,15 @@
-import { navLinks } from "../mainData";
-import { properName } from "../helpers";
-import ActiveLink from "../components/activeLink";
-import { Menu, MenuItem, Typography } from "@material-ui/core";
-import useStyles from "../../static/style/mobilemenu";
+import { makeStyles } from "@material-ui/core/styles";
+import { Menu } from "@material-ui/core";
+import DisplayMenuLinks from "./displayMenuLinks";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    backgroundColor: theme.palette.secondary.main
+  },
+  paper: {
+    backgroundColor: theme.palette.secondary.main
+  }
+}));
 
 const MobileMenu = ({ id, open, close, anchor }) => {
   const classes = useStyles();
@@ -19,19 +26,12 @@ const MobileMenu = ({ id, open, close, anchor }) => {
         onClick={close}
         classes={{ paper: classes.paper }}
       >
-        <div>{displayPagesLinksMobile()}</div>
+        <div>
+          <DisplayMenuLinks isMobile />
+        </div>
       </Menu>
     </div>
   );
 };
-
-const displayPagesLinksMobile = () =>
-  navLinks.map(n => (
-    <MenuItem key={n}>
-      <Typography variant="h6">
-        <ActiveLink href={`/${n}`}>{properName(n)}</ActiveLink>
-      </Typography>
-    </MenuItem>
-  ));
 
 export default MobileMenu;
