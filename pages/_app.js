@@ -1,4 +1,4 @@
-import App, { Container } from "next/app";
+import App from "next/app";
 import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { responsiveFontSizes } from "@material-ui/core/styles";
@@ -28,12 +28,10 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
     return (
-      <Container>
-        <ThemeProvider theme={responsiveFontSizes(theme)}>
-          <CssBaseline />
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </Container>
+      <ThemeProvider theme={responsiveFontSizes(theme)}>
+        <CssBaseline />
+        <Component {...pageProps} />
+      </ThemeProvider>
     );
   }
 }

@@ -1,91 +1,79 @@
-import React from "react";
-import Link from "next/link";
 import Head from "next/head";
-import Nav from "../src/components/nav";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Container,
+  Grid,
+  Paper,
+  Typography,
+  List,
+  ListItem,
+  ListItemText
+} from "@material-ui/core";
+import { urlObjectKeys } from "next-server/dist/lib/utils";
 
-const Home = () => (
-  <div>
-    <Head>
-      <title>Home</title>
-    </Head>
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+  headingContainer: {
+    padding: theme.spacing(3)
+  },
+  imgContainer: {
+    height: "100vh",
+    width: "100%",
+    background: 'no-repeat top/100% url("./static/img/italy_graphic2.gif")'
+  }
+}));
 
-    <Nav />
-
-    <div className="hero">
-      <h1 className="title">Welcome to Next.js!</h1>
-      <p className="description">
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </p>
-
-      <div className="row">
-        <Link href="https://github.com/zeit/next.js#setup">
-          <a className="card">
-            <h3>Getting Started &rarr;</h3>
-            <p>Learn more about Next.js on GitHub and in their examples.</p>
-          </a>
-        </Link>
-        <Link href="https://github.com/zeit/next.js/tree/master/examples">
-          <a className="card">
-            <h3>Examples &rarr;</h3>
-            <p>Find other example boilerplates on the Next.js GitHub.</p>
-          </a>
-        </Link>
-        <Link href="https://github.com/zeit/next.js">
-          <a className="card">
-            <h3>Create Next App &rarr;</h3>
-            <p>Was this tool helpful? Let us know how we can improve it!</p>
-          </a>
-        </Link>
-      </div>
+const Home = () => {
+  const classes = useStyles();
+  return (
+    <div>
+      <Head>
+        <title>Our Italy Trip - home</title>
+      </Head>
+      <Container className={classes.root}>
+        <Grid container direction="column" spacing={3}>
+          <Grid item>
+            <Paper className={classes.headingContainer}>
+              <Typography
+                variant="h3"
+                component="h1"
+                className={classes.headingText}
+              >
+                Our Trip to Italy
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid item>
+            <Grid container>
+              <Grid item md={3} xs={12}>
+                <list>
+                  <ListItem>
+                    <ListItemText>Flights</ListItemText>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText>Lodging</ListItemText>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText>Trains</ListItemText>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText>Luggage Storage</ListItemText>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText>Events and Venues</ListItemText>
+                  </ListItem>
+                </list>
+              </Grid>
+              <Grid item md={9} xs={12}>
+                <Container className={classes.imgContainer}></Container>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Container>
     </div>
-
-    <style jsx>{`
-      .hero {
-        width: 100%;
-        color: #333;
-      }
-      .title {
-        margin: 0;
-        width: 100%;
-        padding-top: 80px;
-        line-height: 1.15;
-        font-size: 48px;
-      }
-      .title,
-      .description {
-        text-align: center;
-      }
-      .row {
-        max-width: 880px;
-        margin: 80px auto 40px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-      }
-      .card {
-        padding: 18px 18px 24px;
-        width: 220px;
-        text-align: left;
-        text-decoration: none;
-        color: #434343;
-        border: 1px solid #9b9b9b;
-      }
-      .card:hover {
-        border-color: #067df7;
-      }
-      .card h3 {
-        margin: 0;
-        color: #067df7;
-        font-size: 18px;
-      }
-      .card p {
-        margin: 0;
-        padding: 12px 0 0;
-        font-size: 13px;
-        color: #333;
-      }
-    `}</style>
-  </div>
-);
-
+  );
+};
 export default Home;
