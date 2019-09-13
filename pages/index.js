@@ -9,7 +9,6 @@ import {
   ListItem,
   ListItemText
 } from "@material-ui/core";
-import { urlObjectKeys } from "next-server/dist/lib/utils";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -34,21 +33,10 @@ const Home = () => {
       </Head>
       <Container className={classes.root}>
         <Grid container direction="column" spacing={3}>
-          {/* <Grid item>
-            <Paper className={classes.headingContainer}>
-              <Typography
-                variant="h3"
-                component="h1"
-                className={classes.headingText}
-              >
-                Our Trip to Italy
-              </Typography>
-            </Paper>
-          </Grid> */}
           <Grid item>
             <Grid container>
               <Grid item md={3} xs={12}>
-                <list>
+                <List>
                   <ListItem>
                     <ListItemText>Flights</ListItemText>
                   </ListItem>
@@ -64,7 +52,7 @@ const Home = () => {
                   <ListItem>
                     <ListItemText>Events and Venues</ListItemText>
                   </ListItem>
-                </list>
+                </List>
               </Grid>
               <Grid item md={9} xs={12}>
                 <Container className={classes.imgContainer}></Container>
