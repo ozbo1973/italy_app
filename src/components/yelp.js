@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import useStyles from "../../static/styles/dataTable.style";
 import {
   Paper,
   Typography,
@@ -9,18 +9,14 @@ import {
   TableRow
 } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
-  tableWrapper: {
-    overflow: "auto"
-  }
-}));
-
 const Yelp = () => {
   const classes = useStyles();
   return (
-    <Paper>
-      <Typography variant="h6">Places to Eat(yelp)</Typography>
-      <div className={classes.tableWrapper}>
+    <Paper className={`${classes.root} ${classes.tableWrapper}`}>
+      <div className={classes.regularTable}>
+        <Typography variant="h6" className={classes.regularTableTitle}>
+          Places to Eat(yelp)
+        </Typography>
         <Table>
           <TableHead>
             <TableCell>Title</TableCell>
