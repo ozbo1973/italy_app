@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -7,6 +7,7 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import IconButton from "@material-ui/core/IconButton";
 import InfoIcon from "@material-ui/icons/Info";
 import Paper from "@material-ui/core/Paper";
+import YelpDialog from "./yelpDialog";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -219,6 +220,10 @@ const yelpData = {
 
 const Yelp = () => {
   const classes = useStyles();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const handleInfoOpen = e => setDialogOpen(true);
+  const handleInfoClose = e => setDialogOpen(false);
+
   return (
     <Paper className={classes.root}>
       <GridList cellHeight={180} className={classes.gridList}>
@@ -232,7 +237,7 @@ const Yelp = () => {
               title={tile.name}
               subtitle={
                 <div>
-                  <span>rating: {tile.rating}</span>{" "}
+                  <span>({tile.price})</span> <span>rating: {tile.rating}</span>{" "}
                   <span>reviews: {tile.review_count}</span>
                 </div>
               }
@@ -240,11 +245,16 @@ const Yelp = () => {
                 <IconButton
                   aria-label={`info about ${tile.name}`}
                   className={classes.icon}
-                  onClick={() => alert(tile.review_count)}
+                  onClick={handleInfoOpen}
                 >
                   <InfoIcon />
                 </IconButton>
               }
+            />
+            <YelpDialog
+              onClose={handleInfoClose}
+              selectedValue={tile}
+              open={dialogOpen}
             />
           </GridListTile>
         ))}
