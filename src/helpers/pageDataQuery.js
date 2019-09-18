@@ -1,6 +1,6 @@
 import { docsData } from "../../tempData";
 
-export const pageDNLData = pathname => {
+export const pageDNLData = async pathname => {
   const page = pathname.split("/")[1];
-  return docsData.filter(d => d.place === page);
+  return await docsData.filter(d => d.place === page);
 };

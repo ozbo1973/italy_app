@@ -46,6 +46,7 @@ const LinksAndDocs = ({ data }) => {
         <DataTable
           tableData={linksAndDocsData(router.pathname, data)}
           dataTitle="Docs and Links"
+          dataComponent="LinksAndDocs"
         />
       </div>
     </Paper>

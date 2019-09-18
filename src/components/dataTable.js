@@ -1,9 +1,19 @@
 import { useState } from "react";
+import { pageDNLData } from "../helpers/pageDataQuery";
 import MaterialTable from "material-table";
 
-export default function DataTable({ tableData, dataTitle, dialogOpts }) {
+export default function DataTable({ tableData, dataTitle, dataComponent }) {
   const [state, setState] = useState(tableData);
 
+  const queryData = {
+    LinksAndDocs: query =>
+      new Promise((resolve, reject) => {
+        const data = pageDNLData(state.filter);
+        resolve({
+          data
+        });
+      })
+  };
   return (
     <>
       <MaterialTable

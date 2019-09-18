@@ -40,6 +40,8 @@ const DocsMenu = () => {
             <a>Events / Venues</a>
           </Link>
         </ListItemText>
+      </ListItem>
+      <ListItem>
         <ListItemText>
           <Link href="/docsData?cat=6" as="/other">
             <a>Other</a>

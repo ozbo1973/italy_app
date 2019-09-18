@@ -12,7 +12,6 @@ const Rome = ({ dnlData }) => {
 
 Rome.getInitialProps = async ({ pathname }) => {
   const dnlData = await pageDNLData(pathname);
-  console.log(dnlData);
   return { dnlData };
 };
 export default Rome;
