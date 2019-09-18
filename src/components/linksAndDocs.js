@@ -1,15 +1,23 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { docsData } from "../../tempData";
 import DataTable from "./dataTable";
 import useStyles from "../../static/styles/dataTable.style";
 import { Paper } from "@material-ui/core";
 
-const linksAndDocsData = pathname => ({
+const linksAndDocsData = (pathname, data) => ({
   columns: [
     {
       title: "Category",
       field: "category",
-      lookup: { 1: "Flight", 2: "Train", 3: "Lodging", 4: "Event", 5: "Other" }
+      lookup: {
+        1: "Flight",
+        2: "Train",
+        3: "Lodging",
+        4: "Luggage",
+        5: "Events",
+        6: "Other"
+      }
     },
     { title: "Description", field: "description" },
     {
@@ -25,18 +33,10 @@ const linksAndDocsData = pathname => ({
       )
     }
   ],
-  data: [
-    {
-      category: 1,
-      description: "Flight Itinerary for Rome.",
-      url:
-        "https://docs.google.com/document/d/1exhSHPk13ZakLIqrymcYIrtsUvEsmZ2O/edit",
-      id: 12345
-    }
-  ]
+  data
 });
 
-const LinksAndDocs = () => {
+const LinksAndDocs = ({ data }) => {
   const classes = useStyles();
   const router = useRouter();
 
@@ -44,7 +44,7 @@ const LinksAndDocs = () => {
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>
         <DataTable
-          tableData={linksAndDocsData(router.pathname)}
+          tableData={linksAndDocsData(router.pathname, data)}
           dataTitle="Docs and Links"
         />
       </div>

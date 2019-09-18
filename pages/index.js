@@ -1,14 +1,7 @@
 import Head from "next/head";
+import DocsMenu from "../src/components/docsMenu";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Container,
-  Grid,
-  Paper,
-  Typography,
-  List,
-  ListItem,
-  ListItemText
-} from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,23 +29,7 @@ const Home = () => {
           <Grid item>
             <Grid container>
               <Grid item md={3} xs={12}>
-                <List>
-                  <ListItem>
-                    <ListItemText>Flights</ListItemText>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText>Lodging</ListItemText>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText>Trains</ListItemText>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText>Luggage Storage</ListItemText>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText>Events and Venues</ListItemText>
-                  </ListItem>
-                </List>
+                <DocsMenu />
               </Grid>
               <Grid item md={9} xs={12}>
                 <Container className={classes.imgContainer}></Container>

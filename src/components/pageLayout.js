@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PageLayout = ({ children }) => {
+const PageLayout = ({ children, tData }) => {
   const classes = useStyles();
   const router = useRouter();
   const pageTitle = router.pathname.split("/")[1];
@@ -42,7 +42,7 @@ const PageLayout = ({ children }) => {
         </Grid>
         <Grid item spacing={4} container>
           <Grid item md={6} xs={12}>
-            <LinksAndDocs />
+            <LinksAndDocs data={tData.dnlData} />
           </Grid>
           <Grid item md={6} xs={12}>
             <Yelp />

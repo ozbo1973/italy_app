@@ -6,20 +6,15 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-const tempDocsData = {
-  category: 1,
-  description: "Flight Itinerary for Rome.",
-  url:
-    "https://docs.google.com/document/d/1exhSHPk13ZakLIqrymcYIrtsUvEsmZ2O/edit",
-  id: 12345
-};
-
 app.prepare().then(() => {
   const server = express();
 
   server.get("/fileViewer/:id", (req, res) => {
-    console.log("params", req.params);
-    app.render(req, res, "/fileViewer", tempDocsData);
+    app.render(req, res, "/fileViewer");
+  });
+
+  server.get("/docsData/:cat", (req, res) => {
+    app.render(req, res, "/docsData");
   });
 
   server.get("*", (req, res) => {
