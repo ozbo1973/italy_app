@@ -1,21 +1,29 @@
 import Head from "next/head";
-import { makeStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { useRouter } from "next/router";
+import { getPageTitleProper, getPageTitle } from "../src/helpers/pageHelpers";
+import { getAllPageData } from "../src/helpers/pageDataQuery";
+import PageLayout from "../src/components/pageLayout";
+import { Container } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  }
-}));
-const Venice = () => {
-  const classes = useStyles();
+const Venice = ({ tData }) => {
+  const router = useRouter();
+  const pageTitle = getPageTitleProper(router.pathname);
+  const page = getPageTitle(router.pathname);
+
   return (
-    <div className={classes.root}>
-      <Typography variant="h3" component="h1">
-        Venice
-      </Typography>
+    <div>
+      <Head>
+        <title>{`Our Italy Trip | ${pageTitle}`} </title>
+      </Head>
+      <Container>
+        <PageLayout page={{ page, pageTitle }} tData={tData} />
+      </Container>
     </div>
   );
 };
 
+Venice.getInitialProps = async ({ pathname }) => {
+  const data = await getAllPageData(pathname);
+  return { tData: data };
+};
 export default Venice;

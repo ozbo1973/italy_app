@@ -2,7 +2,7 @@ import DataTable from "./dataTable";
 import useStyles from "../../static/styles/dataTable.style";
 import { Paper } from "@material-ui/core";
 
-const itineraryData = {
+const itineraryData = data => ({
   columns: [
     { title: "Date", field: "date" },
     { title: "Time", field: "time" },
@@ -13,23 +13,15 @@ const itineraryData = {
       lookup: { 1: "yes", 2: "no" }
     }
   ],
-  data: [
-    {
-      date: "2019-09-25",
-      time: "8:00am",
-      description: "Landing at Rome Airport, get to hotel area.",
-      tickets: 1
-    }
-  ]
-};
+  data
+});
 
-const Itinerary = () => {
+const Itinerary = ({ data }) => {
   const classes = useStyles();
-
   return (
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>
-        <DataTable tableData={itineraryData} dataTitle="Itinerary" />
+        <DataTable tableData={itineraryData(data)} dataTitle="Itinerary" />
       </div>
     </Paper>
   );

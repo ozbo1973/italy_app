@@ -1,17 +1,29 @@
-import { pageDNLData } from "../src/helpers/pageDataQuery";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { getPageTitleProper, getPageTitle } from "../src/helpers/pageHelpers";
+import { getAllPageData } from "../src/helpers/pageDataQuery";
 import PageLayout from "../src/components/pageLayout";
 import { Container } from "@material-ui/core";
 
-const Rome = ({ dnlData }) => {
+const Rome = ({ tData }) => {
+  const router = useRouter();
+  const pageTitle = getPageTitleProper(router.pathname);
+  const page = getPageTitle(router.pathname);
+
   return (
-    <Container>
-      <PageLayout tData={{ dnlData }} />
-    </Container>
+    <div>
+      <Head>
+        <title>{`Our Italy Trip | ${pageTitle}`} </title>
+      </Head>
+      <Container>
+        <PageLayout page={{ page, pageTitle }} tData={tData} />
+      </Container>
+    </div>
   );
 };
 
 Rome.getInitialProps = async ({ pathname }) => {
-  const dnlData = await pageDNLData(pathname);
-  return { dnlData };
+  const data = await getAllPageData(pathname);
+  return { tData: data };
 };
 export default Rome;

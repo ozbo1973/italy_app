@@ -1,5 +1,3 @@
-import Head from "next/head";
-import { useRouter } from "next/router";
 import Weather from "./weather";
 import Itinerary from "./itinerary";
 import LinksAndDocs from "./linksAndDocs";
@@ -14,42 +12,37 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PageLayout = ({ children, tData }) => {
+const PageLayout = ({ children, tData, page }) => {
   const classes = useStyles();
-  const router = useRouter();
-  const pageTitle = router.pathname.split("/")[1];
+  const { weatherData, itnData, dnlData, yelpData } = tData;
+  const { pageTitle } = page;
 
   return (
-    <div>
-      <Head>
-        <title>{`Our Italy Trip | ${pageTitle}`} </title>
-      </Head>
-      <Grid container direction="column" spacing={5} className={classes.root}>
-        <Grid item container spacing={3}>
-          <Grid item md={3} xs={12} container direction="column">
-            <Grid item>
-              <Typography variant="h3" component="h1">
-                {`${pageTitle}`}
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Weather location={pageTitle} />
-            </Grid>
+    <Grid container direction="column" spacing={5} className={classes.root}>
+      <Grid item container spacing={3}>
+        <Grid item md={3} xs={12} container direction="column">
+          <Grid item>
+            <Typography variant="h3" component="h1">
+              {`${pageTitle}`}
+            </Typography>
           </Grid>
-          <Grid item md={9} xs={12}>
-            <Itinerary />
+          <Grid item>
+            <Weather data={weatherData} />
           </Grid>
         </Grid>
-        <Grid item spacing={4} container>
-          <Grid item md={6} xs={12}>
-            <LinksAndDocs data={tData.dnlData} />
-          </Grid>
-          <Grid item md={6} xs={12}>
-            <Yelp />
-          </Grid>
+        <Grid item md={9} xs={12}>
+          <Itinerary data={itnData} />
         </Grid>
       </Grid>
-    </div>
+      <Grid item spacing={4} container>
+        <Grid item md={6} xs={12}>
+          <LinksAndDocs data={dnlData} path={page} />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <Yelp data={yelpData} />
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 

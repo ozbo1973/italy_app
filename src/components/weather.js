@@ -18,50 +18,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const weatherData = {
-  timezone: "Italy/Rome",
-  currently: {
-    time: 1509993277,
-    summary: "Drizzle",
-    temperature: 66.1,
-    icon: "clear-day",
-    cloudCover: 0.7,
-    visibility: 9.84
-  },
-  daily: {
-    summary: "Rain starting in afternoon,continue until the evening",
-    data: [
-      {
-        summary: "Clearing in the morning and evening",
-        temperatureHigh: 66.35,
-        temperatureLow: 41.28,
-        icon: "rain"
-      },
-      {
-        summary: "Cloudy in the evening",
-        temperatureHigh: 72.35,
-        temperatureLow: 52.28,
-        icon: "clear-day"
-      },
-      {
-        summary: "Cloudy most of the day",
-        temperatureHigh: 65.35,
-        temperatureLow: 52.28,
-        icon: "cloudy"
-      }
-    ]
-  }
-};
-
 const weatherIcons = {
   rain: <Rain />,
   clearday: <ClearDay />,
   cloudy: <Cloudy />
 };
 
-const Weather = ({ location }) => {
+const Weather = ({ data }) => {
   const classes = useStyles();
-  const { currently, daily } = weatherData;
+
+  const { currently, daily } = data.weatherData;
   const getIcon = icon => weatherIcons[icon.split("-").join("")];
 
   return (

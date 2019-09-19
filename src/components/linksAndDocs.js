@@ -25,7 +25,7 @@ const linksAndDocsData = (pathname, data) => ({
       field: "url",
       render: rowData => (
         <Link
-          href={`/fileViewer?descr=${rowData.description}&url=${rowData.url}&from=${pathname}`}
+          href={`/fileViewer?descr=${rowData.description}&url=${rowData.url}&from=/${pathname}`}
           as={`/fileViewer/${rowData.id}`}
         >
           <a>View</a>
@@ -36,15 +36,14 @@ const linksAndDocsData = (pathname, data) => ({
   data
 });
 
-const LinksAndDocs = ({ data }) => {
+const LinksAndDocs = ({ data, path }) => {
   const classes = useStyles();
-  const router = useRouter();
 
   return (
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>
         <DataTable
-          tableData={linksAndDocsData(router.pathname, data)}
+          tableData={linksAndDocsData(path, data)}
           dataTitle="Docs and Links"
           dataComponent="LinksAndDocs"
         />
