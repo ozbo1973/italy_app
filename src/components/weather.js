@@ -56,9 +56,9 @@ const Weather = ({ page }) => {
   }, [weatherData]);
 
   return isLoading ? (
-    <div>
+    <Paper className={classes.root}>
       <CircularProgress className={classes.progress} />
-    </div>
+    </Paper>
   ) : (
     <Paper className={classes.root}>
       <Card>

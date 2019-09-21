@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { pageYelpData } from "../helpers/pageDataQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -8,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import InfoIcon from "@material-ui/icons/Info";
 import Paper from "@material-ui/core/Paper";
 import YelpDialog from "./yelpDialog";
+import { CircularProgress } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,19 +37,71 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Yelp = ({ data }) => {
+const Yelp = ({ page }) => {
   const classes = useStyles();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const handleInfoOpen = e => setDialogOpen(true);
+  const [selectedTile, setSelectedTile] = useState({});
+  const [yelpData, setYelpData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handleInfoOpen = (e, tile) => {
+    setSelectedTile(tile);
+    setDialogOpen(true);
+  };
   const handleInfoClose = e => setDialogOpen(false);
 
-  return (
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await pageYelpData(page.pageTitle);
+        console.log(data);
+        setYelpData(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(true);
+      }
+    };
+
+    isLoading && getData();
+  }, [yelpData]);
+
+  return isLoading ? (
+    <Paper className={classes.root}>
+      <CircularProgress />
+    </Paper>
+  ) : (
+    <DisplayYelp
+      isOpen={dialogOpen}
+      handleInfoClose={handleInfoClose}
+      selectedTile={selectedTile}
+      handleInfoOpen={handleInfoOpen}
+      yelpData={yelpData}
+    />
+  );
+};
+
+const DisplayYelp = ({
+  isOpen,
+  handleInfoClose,
+  selectedTile,
+  handleInfoOpen,
+  yelpData
+}) => {
+  const classes = useStyles();
+  return isOpen ? (
+    <YelpDialog
+      onClose={handleInfoClose}
+      selectedValue={selectedTile}
+      open={isOpen}
+    />
+  ) : (
     <Paper className={classes.root}>
       <GridList cellHeight={180} className={classes.gridList}>
         <GridListTile key="Subheader" cols={2} style={{ height: "auto" }}>
           <ListSubheader component="div">Places to Eat (Yelp)</ListSubheader>
         </GridListTile>
-        {data.yelpData.businesses.map(tile => (
+        {yelpData.businesses.map(tile => (
           <GridListTile key={tile.id}>
             <img src={tile.image_url} alt={tile.name} />
             <GridListTileBar
@@ -62,22 +116,19 @@ const Yelp = ({ data }) => {
                 <IconButton
                   aria-label={`info about ${tile.name}`}
                   className={classes.icon}
-                  onClick={handleInfoOpen}
+                  onClick={e => handleInfoOpen(e, tile)}
                 >
                   <InfoIcon />
                 </IconButton>
               }
-            />
-            <YelpDialog
-              onClose={handleInfoClose}
-              selectedValue={tile}
-              open={dialogOpen}
             />
           </GridListTile>
         ))}
       </GridList>
     </Paper>
   );
+  {
+  }
 };
 
 export default Yelp;

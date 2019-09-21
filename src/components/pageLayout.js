@@ -39,7 +39,7 @@ const PageLayout = ({ children, tData, page }) => {
           <LinksAndDocs data={dnlData} path={page} />
         </Grid>
         <Grid item md={6} xs={12}>
-          <Yelp data={yelpData} />
+          <Yelp page={page} />
         </Grid>
       </Grid>
     </Grid>

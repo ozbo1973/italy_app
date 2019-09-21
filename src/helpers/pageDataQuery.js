@@ -1,6 +1,7 @@
 import { docsData, itinData, weatherData, yelpData } from "../../tempData";
 import { getPageTitle } from "./pageHelpers";
 import { getGeoData, getWeather } from "../api/weatherAPI";
+import { getYelpList } from "../api/yelpAPI";
 
 export const pageDNLData = pathname => {
   const page = getPageTitle(pathname);
@@ -19,13 +20,15 @@ export const pageWeatherData = async page => {
   return weatherData;
 };
 
-export const pageYelpData = pathname => {
-  return { yelpData };
+export const pageYelpData = async page => {
+  const location = await getGeoData(`${page},Italy`);
+  const yelpData = await getYelpList(location);
+
+  return yelpData;
 };
 
 export const getAllPageData = async pathname => {
   const dnlData = await pageDNLData(pathname);
   const itnData = await pageItinData(pathname);
-  const yelpData = await pageYelpData(pathname);
   return { dnlData, itnData, weatherData, yelpData };
 };
