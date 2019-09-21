@@ -54,7 +54,6 @@ const Yelp = ({ page }) => {
     const getData = async () => {
       try {
         const data = await pageYelpData(page.pageTitle);
-        console.log(data);
         setYelpData(data);
         setIsLoading(false);
       } catch (error) {

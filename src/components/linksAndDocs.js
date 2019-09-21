@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { docsData } from "../../tempData";
 import DataTable from "./dataTable";
 import useStyles from "../../static/styles/dataTable.style";
 import { Paper } from "@material-ui/core";

@@ -1,4 +1,9 @@
-import { docsData, itinData, weatherData, yelpData } from "../../tempData";
+import {
+  docsData,
+  itinData,
+  weatherData,
+  yelpData
+} from "../../server/tempData";
 import { getPageTitle } from "./pageHelpers";
 import { getGeoData, getWeather } from "../api/weatherAPI";
 import { getYelpList } from "../api/yelpAPI";
