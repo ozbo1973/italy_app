@@ -1,12 +1,13 @@
+import { useState, useEffect } from "react";
+import { pageWeatherData } from "../helpers/pageDataQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
   Typography,
   Card,
   CardContent,
-  CardActions,
-  CardHeader,
-  Divider
+  Divider,
+  CircularProgress
 } from "@material-ui/core";
 import Rain from "@material-ui/icons/BeachAccess";
 import ClearDay from "@material-ui/icons/WbSunny";
@@ -15,22 +16,50 @@ import Cloudy from "@material-ui/icons/WbCloudy";
 const useStyles = makeStyles(theme => ({
   root: {
     marginTop: theme.spacing(2)
+  },
+  progress: {
+    margin: theme.spacing(2)
   }
 }));
 
 const weatherIcons = {
   rain: <Rain />,
   clearday: <ClearDay />,
-  cloudy: <Cloudy />
+  clearnight: <ClearDay />,
+  cloudy: <Cloudy />,
+  partlycloudynight: <Cloudy />,
+  partlycloudyday: <Cloudy />
 };
 
-const Weather = ({ data }) => {
+const Weather = ({ page }) => {
+  const [isLoading, setIsloading] = useState(true);
+  const [weatherData, setWeatherData] = useState({});
+  const { currently = {}, daily = [] } = weatherData;
   const classes = useStyles();
-
-  const { currently, daily } = data.weatherData;
   const getIcon = icon => weatherIcons[icon.split("-").join("")];
 
-  return (
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await pageWeatherData(page.pageTitle);
+        setWeatherData({ currently: data.currently, daily: data.daily });
+        setIsloading(false);
+      } catch (error) {
+        setIsloading(true);
+        console.log(error);
+      }
+    };
+
+    if (isLoading) {
+      getData();
+    }
+  }, [weatherData]);
+
+  return isLoading ? (
+    <div>
+      <CircularProgress className={classes.progress} />
+    </div>
+  ) : (
     <Paper className={classes.root}>
       <Card>
         <CardContent>

@@ -27,7 +27,7 @@ const PageLayout = ({ children, tData, page }) => {
             </Typography>
           </Grid>
           <Grid item>
-            <Weather data={weatherData} />
+            <Weather page={page} />
           </Grid>
         </Grid>
         <Grid item md={9} xs={12}>
