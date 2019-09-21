@@ -1,9 +1,5 @@
 import axios from "axios";
-
-const MAPBOX_KEY =
-  "pk.eyJ1Ijoib3pibzE5NzMiLCJhIjoiY2swM3R4czA1MmNoYzNia2lvanN1aDk4MyJ9.pSgG6iqJWBkbIB1LJhJ5ag";
-
-const WeatherKey = "c3961f7d806124363bb8163b70d9641f";
+import { MAPBOX_KEY, WEATHER_KEY } from "../../keys/api.keys";
 
 export const getGeoData = async address => {
   const geoURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
@@ -21,7 +17,7 @@ export const getGeoData = async address => {
 };
 
 export const getWeather = async ({ lat, lng }) => {
-  const weatherURL = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${WeatherKey}/${lat},${lng}`;
+  const weatherURL = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${WEATHER_KEY}/${lat},${lng}`;
 
   try {
     const { data } = await axios.get(weatherURL);
