@@ -1,9 +1,5 @@
-import {
-  docsData,
-  itinData,
-  weatherData,
-  yelpData
-} from "../../server/tempData";
+import axios from "axios";
+import { docsData, itinData } from "../../server/tempData";
 import { getPageTitle } from "./pageHelpers";
 import { getGeoData, getWeather } from "../api/weatherAPI";
 import { getYelpList } from "../api/yelpAPI";
@@ -13,9 +9,15 @@ export const pageDNLData = pathname => {
   return docsData.filter(d => d.place === page);
 };
 
-export const pageItinData = pathname => {
-  const page = getPageTitle(pathname);
-  return itinData.filter(d => d.place === page);
+export const pageItinData = async page => {
+  try {
+    const { data } = await axios.get(
+      `http://localhost:3000/api/itin/italy/${page}`
+    );
+    return data;
+  } catch (error) {
+    return console.log(error);
+  }
 };
 
 export const pageWeatherData = async page => {
@@ -34,6 +36,5 @@ export const pageYelpData = async page => {
 
 export const getAllPageData = async pathname => {
   const dnlData = await pageDNLData(pathname);
-  const itnData = await pageItinData(pathname);
-  return { dnlData, itnData, weatherData, yelpData };
+  return { dnlData };
 };

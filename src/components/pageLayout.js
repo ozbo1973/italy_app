@@ -31,7 +31,7 @@ const PageLayout = ({ children, tData, page }) => {
           </Grid>
         </Grid>
         <Grid item md={9} xs={12}>
-          <Itinerary data={itnData} />
+          <Itinerary page={page} />
         </Grid>
       </Grid>
       <Grid item spacing={4} container>
