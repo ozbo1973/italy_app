@@ -1,5 +1,5 @@
 import axios from "axios";
-import { docsData, itinData } from "../../server/tempData";
+import { docsData } from "../../server/tempData";
 import { getPageTitle } from "./pageHelpers";
 import { getGeoData, getWeather } from "../api/weatherAPI";
 import { getYelpList } from "../api/yelpAPI";
@@ -9,15 +9,16 @@ export const pageDNLData = pathname => {
   return docsData.filter(d => d.place === page);
 };
 
-export const pageItinData = async page => {
-  try {
-    const { data } = await axios.get(
-      `http://localhost:3000/api/itin/italy/${page}`
-    );
-    return data;
-  } catch (error) {
-    return console.log(error);
-  }
+export const dataTableAPI = tbl => {
+  // try {
+  //   const { data } = await axios.get(`/api/itin/italy/${page}`);
+  //   return data;
+  // } catch (error) {
+  //   return console.log(error);
+  // }
+  return axios.create({
+    baseURL: `/api/${tbl}/italy`
+  });
 };
 
 export const pageWeatherData = async page => {

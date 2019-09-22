@@ -10,16 +10,15 @@ exports.getAllItinerary = async (req, res) => {
   }
 };
 
-exports.createItineraryItem = (req, res) => {
+exports.createItineraryItem = async (req, res) => {
   const { place, trip } = req.params;
   const addItem = { ...req.body, place, trip };
-  db.Itinerary.create(addItem)
-    .then(newItin => {
-      res.status(201).json(newItin);
-    })
-    .catch(err => {
-      res.send(err);
-    });
+  try {
+    const newItin = await Itinerary.create(addItem);
+    res.status(201).json(newItin);
+  } catch (error) {
+    res.send(error);
+  }
 };
 
 // exports.showTodo = (req, res) => {
@@ -32,24 +31,26 @@ exports.createItineraryItem = (req, res) => {
 //     });
 // };
 
-// exports.updateTodo = (req, res) => {
-//   db.Todo.findOneAndUpdate({ _id: req.params.todoId }, req.body, { new: true })
-//     .then(newTodo => {
-//       res.json(newTodo);
-//     })
-//     .catch(err => {
-//       res.send(err);
-//     });
-// };
+exports.updateItinerary = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updtItin = await Itinerary.findOneAndUpdate({ _id: id }, req.body, {
+      new: true
+    });
+    res.json(updtItin);
+  } catch (error) {
+    res.send(error);
+  }
+};
 
-// exports.deleteTodo = (req, res) => {
-//   db.Todo.remove({ _id: req.params.todoId })
-//     .then(() => {
-//       res.json({ message: "This has been deleted" });
-//     })
-//     .catch(err => {
-//       res.send(err);
-//     });
-// };
+exports.deleteItinerary = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const itin = await Itinerary.findOneAndDelete({ _id: id });
+    res.json(itin);
+  } catch (error) {
+    res.send(error);
+  }
+};
 
 module.exports = exports;

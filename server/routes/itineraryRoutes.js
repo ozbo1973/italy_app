@@ -8,10 +8,9 @@ router
   .get(ctl.getAllItinerary)
   .post(ctl.createItineraryItem);
 
-// router
-//   .route("/:id")
-//   .get(fx.showTodo)
-//   .put(fx.updateTodo)
-//   .delete(fx.deleteTodo);
+router
+  .route("/:trip/:place/:id")
+  .patch(ctl.updateItinerary)
+  .delete(ctl.deleteItinerary);
 
 module.exports = router;

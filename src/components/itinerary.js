@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { pageItinData } from "../helpers/pageDataQuery";
+import { dataTableAPI } from "../helpers/pageDataQuery";
 import DataTable from "./dataTable";
 import useStyles from "../../static/styles/dataTable.style";
 import { Paper, CircularProgress } from "@material-ui/core";
 
 const itineraryData = data => ({
   columns: [
-    { title: "Date", field: "date", type: "date" },
+    { title: "Date", field: "date", type: "datetime" },
     { title: "Title", field: "title" },
     { title: "Description", field: "description" },
     {
@@ -22,12 +22,13 @@ const Itinerary = ({ page }) => {
   const classes = useStyles();
   const [itinData, setItinData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  console.log(page);
+  const baseURL = "itin";
+  const dataTitle = "Itinerary";
+
   useEffect(() => {
     const getData = async () => {
       try {
-        const data = await pageItinData(page.page);
-        console.log(data);
+        const { data } = await dataTableAPI(baseURL).get(`/${page.page}`);
         setItinData(data);
         setIsLoading(false);
       } catch (error) {
@@ -46,7 +47,12 @@ const Itinerary = ({ page }) => {
   ) : (
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>
-        <DataTable tableData={itineraryData(itinData)} dataTitle="Itinerary" />
+        <DataTable
+          pageRoute={`/${page.page}`}
+          baseURL={baseURL}
+          tableData={itineraryData(itinData)}
+          dataTitle={dataTitle}
+        />
       </div>
     </Paper>
   );
