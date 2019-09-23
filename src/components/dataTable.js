@@ -16,6 +16,9 @@ export default function DataTable({
         title={dataTitle}
         columns={state.columns}
         data={state.data}
+        options={{
+          sorting: true
+        }}
         editable={{
           onRowAdd: async newData => {
             await dataTableAPI(baseURL).post(pageRoute, newData);

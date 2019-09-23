@@ -1,14 +1,28 @@
 import { useState, useEffect } from "react";
 import { dataTableAPI } from "../helpers/pageDataQuery";
+import { formatDate } from "../helpers/pageHelpers";
 import DataTable from "./dataTable";
 import useStyles from "../../static/styles/dataTable.style";
 import { Paper, CircularProgress } from "@material-ui/core";
 
 const itineraryData = data => ({
   columns: [
-    { title: "Date", field: "date", type: "datetime" },
-    { title: "Title", field: "title" },
-    { title: "Description", field: "description" },
+    {
+      title: "Date",
+      field: "date",
+      type: "datetime",
+      defaultSort: "asc",
+      render: rowData => formatDate(rowData.date)
+    },
+    {
+      title: "Title",
+      field: "title",
+      render: rowData => <strong>{rowData.title}</strong>
+    },
+    {
+      title: "Description",
+      field: "description"
+    },
     {
       title: "Tickets Required",
       field: "tickets",
