@@ -3,7 +3,9 @@ const Itinerary = require("../models/itinerarySchema");
 exports.getAllItinerary = async (req, res) => {
   const { place, trip } = req.params;
   try {
-    const itins = await Itinerary.find({ trip: trip, place: place });
+    const itins = await Itinerary.find({ trip: trip, place: place }).sort(
+      "date"
+    );
     res.json(itins);
   } catch (error) {
     res.send(err);

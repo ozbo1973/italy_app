@@ -1,6 +1,6 @@
 export const docsData = [
   {
-    category: 1,
+    category: "flight",
     description: "Flight Itinerary for Rome.",
     url:
       "https://docs.google.com/document/d/1exhSHPk13ZakLIqrymcYIrtsUvEsmZ2O/edit",

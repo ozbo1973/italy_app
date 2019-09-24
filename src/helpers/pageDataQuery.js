@@ -9,17 +9,10 @@ export const pageDNLData = pathname => {
   return docsData.filter(d => d.place === page);
 };
 
-export const dataTableAPI = tbl => {
-  // try {
-  //   const { data } = await axios.get(`/api/itin/italy/${page}`);
-  //   return data;
-  // } catch (error) {
-  //   return console.log(error);
-  // }
-  return axios.create({
+export const dataTableAPI = tbl =>
+  axios.create({
     baseURL: `/api/${tbl}/italy`
   });
-};
 
 export const pageWeatherData = async page => {
   const location = await getGeoData(`${page},Italy`);

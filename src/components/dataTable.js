@@ -22,6 +22,7 @@ export default function DataTable({
         editable={{
           onRowAdd: async newData => {
             await dataTableAPI(baseURL).post(pageRoute, newData);
+            console.log(newData);
             const data = [...state.data];
             data.push(newData);
             setState({ ...state, data });
