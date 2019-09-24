@@ -36,7 +36,7 @@ const columns = pathname => [
   }
 ];
 
-const LinksAndDocs = ({ page }) => {
+const LinksAndDocs = ({ page, docsData }) => {
   const classes = useStyles();
   const [tblData, setTblData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
