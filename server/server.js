@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const next = require("next");
 const itinRoutes = require("./routes/itineraryRoutes");
 const linksdocsRoutes = require("./routes/linksDocsRoutes");
+const docsDataRoutes = require("./routes/docsDataRoutes");
 
 const port = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -39,6 +40,7 @@ app.prepare().then(() => {
   server.use(express.json());
   // server.use(express.urlencoded({ extended: true }));
 
+  /* used to format data from forms */
   server.use(formData.parse(formDataOptions));
   server.use(formData.format());
   server.use(formData.stream());
@@ -46,6 +48,7 @@ app.prepare().then(() => {
 
   server.use("/api/itin", itinRoutes);
   server.use("/api/linksdocs", linksdocsRoutes);
+  server.use("/api/docsData", docsDataRoutes);
 
   server.get("/fileViewer/:id", (req, res) => {
     app.render(req, res, "/fileViewer");

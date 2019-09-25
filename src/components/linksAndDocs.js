@@ -36,19 +36,49 @@ const columns = pathname => [
   }
 ];
 
+const columns_docsdata = pathname => [
+  {
+    title: "Place",
+    field: "place",
+    lookup: {
+      rome: "rome",
+      florence: "florence",
+      cinqueterre: "cinque-terre",
+      venice: "venice"
+    }
+  },
+  { title: "Description", field: "description" },
+  {
+    title: "View",
+    field: "url",
+    render: rowData => (
+      // <Link
+      //   href={`/fileViewer?descr=${rowData.description}&url=${rowData.url}&from=${pathname}`}
+      //   as={`/fileViewer/${rowData._id}`}
+      // >
+      //   <a>View</a>
+      // </Link>
+      <a href={rowData.url} target="_blank">
+        View
+      </a>
+    )
+  }
+];
+
 const LinksAndDocs = ({ page, docsData }) => {
   const classes = useStyles();
   const [tblData, setTblData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const baseURL = "linksdocs";
+  const baseURL = docsData ? "docsData" : "linksdocs";
   const dataTitle = "Links And Docs";
-  const pageRoute = `/${page.page}`;
+  const pageRoute = docsData ? `/${page}` : `/${page.page}`;
+  const useColumns = docsData ? columns_docsdata : columns;
 
   useEffect(() => {
     const getData = async () => {
       try {
         const { data } = await dataTableAPI(baseURL).get(pageRoute);
-        setTblData({ columns: columns(pageRoute), data });
+        setTblData({ columns: useColumns(pageRoute), data });
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -56,8 +86,9 @@ const LinksAndDocs = ({ page, docsData }) => {
       }
     };
 
+    docsData && getData();
     isLoading && getData();
-  }, [isLoading]);
+  }, [isLoading, pageRoute]);
 
   return (
     <Paper className={classes.root}>
@@ -72,7 +103,11 @@ const LinksAndDocs = ({ page, docsData }) => {
           }}
           editable={{
             onRowAdd: async newData => {
-              await dataTableAPI(baseURL).post(pageRoute, newData);
+              const place = newData.place.split("-").join("");
+              await dataTableAPI(baseURL).post(pageRoute, {
+                ...newData,
+                place
+              });
               setIsLoading(true);
             },
             onRowUpdate: async (newData, oldData) => {

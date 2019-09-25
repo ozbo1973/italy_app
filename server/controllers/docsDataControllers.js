@@ -1,12 +1,9 @@
 const LinksDocs = require("../models/linksDocSchema");
 
 exports.getAlllinksDocs = async (req, res) => {
-  const { place, trip } = req.params;
+  const { category, trip } = req.params;
   try {
-    const linksDocs = await LinksDocs.find({
-      trip: trip,
-      place: place.split("-").join("")
-    });
+    const linksDocs = await LinksDocs.find({ trip: trip, category: category });
     res.json(linksDocs);
   } catch (error) {
     res.send(err);
@@ -14,8 +11,8 @@ exports.getAlllinksDocs = async (req, res) => {
 };
 
 exports.createLinksDocs = async (req, res) => {
-  const { place, trip } = req.params;
-  const addItem = { ...req.body, place, trip };
+  const { category, trip } = req.params;
+  const addItem = { ...req.body, category, trip };
   try {
     const newLinkDoc = await LinksDocs.create(addItem);
     res.status(201).json(newLinkDoc);

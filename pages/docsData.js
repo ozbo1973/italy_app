@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import LinksAndDocs from "../src/components/linksAndDocs";
 import DocsMenu from "../src/components/docsMenu";
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,9 +18,13 @@ const useStyles = makeStyles(theme => ({
     background: 'no-repeat top/100% url("./static/img/italy_graphic2.gif")'
   }
 }));
-const DocsData = ({ data }) => {
-  console.log(data);
+
+const DocsData = () => {
   const classes = useStyles();
+  const router = useRouter();
+  const { category = 0 } = router.query;
+  console.log(category);
+
   return (
     <Container className={classes.root}>
       <Grid container direction="column" spacing={3}>
@@ -29,17 +34,13 @@ const DocsData = ({ data }) => {
               <DocsMenu />
             </Grid>
             <Grid item md={9} xs={12}>
-              <LinksAndDocs />
+              <LinksAndDocs page={category} docsData />
             </Grid>
           </Grid>
         </Grid>
       </Grid>
     </Container>
   );
-};
-
-DocsData.getInitialProps = ({ query }) => {
-  return { data: query };
 };
 
 export default DocsData;
