@@ -8,6 +8,7 @@ const next = require("next");
 const itinRoutes = require("./routes/itineraryRoutes");
 const linksdocsRoutes = require("./routes/linksDocsRoutes");
 const docsDataRoutes = require("./routes/docsDataRoutes");
+const otherAPIRoutes = require("./routes/otherAPIRoutes");
 
 const port = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -49,6 +50,7 @@ app.prepare().then(() => {
   server.use("/api/itin", itinRoutes);
   server.use("/api/linksdocs", linksdocsRoutes);
   server.use("/api/docsData", docsDataRoutes);
+  server.use("/api/other", otherAPIRoutes);
 
   server.get("/fileViewer/:id", (req, res) => {
     app.render(req, res, "/fileViewer");

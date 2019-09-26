@@ -1,7 +1,7 @@
 import axios from "axios";
-import { MAPBOX_KEY, WEATHER_KEY } from "../../keys/api.keys";
+// const { MAPBOX_KEY, WEATHER_KEY } = process.env;
 
-export const getGeoData = async address => {
+export const getGeoData = async (address, { MAPBOX_KEY }) => {
   const geoURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
     address
   )}.json?access_token=${MAPBOX_KEY}`;
@@ -16,7 +16,7 @@ export const getGeoData = async address => {
   }
 };
 
-export const getWeather = async ({ lat, lng }) => {
+export const getWeather = async ({ lat, lng }, { WEATHER_KEY }) => {
   const weatherURL = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${WEATHER_KEY}/${lat},${lng}`;
 
   try {

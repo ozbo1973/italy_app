@@ -14,16 +14,21 @@ export const dataTableAPI = tbl =>
     baseURL: `/api/${tbl}/italy`
   });
 
-export const pageWeatherData = async page => {
-  const location = await getGeoData(`${page},Italy`);
-  const weatherData = await getWeather(location);
+export const otherAPI = api =>
+  axios.create({
+    baseURL: `/api/other/${api}/italy`
+  });
+
+export const pageWeatherData = async (page, apiKey) => {
+  const location = await getGeoData(`${page},Italy`, apiKey);
+  const weatherData = await getWeather(location, apiKey);
 
   return weatherData;
 };
 
-export const pageYelpData = async page => {
-  const location = await getGeoData(`${page},Italy`);
-  const yelpData = await getYelpList(location);
+export const pageYelpData = async (page, apiKey) => {
+  const location = await getGeoData(`${page},Italy`, apiKey);
+  const yelpData = await getYelpList(location, apiKey);
 
   return yelpData;
 };

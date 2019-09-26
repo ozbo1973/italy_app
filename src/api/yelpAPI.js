@@ -1,7 +1,7 @@
 import axios from "axios";
-import { YELP_KEY } from "../../keys/api.keys";
+const { YELP_KEY } = process.env;
 
-export const getYelpList = async ({ lat, lng }) => {
+export const getYelpList = async ({ lat, lng }, { YELP_KEY }) => {
   const yelpURL =
     "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search";
   const { data } = await axios.get(yelpURL, {

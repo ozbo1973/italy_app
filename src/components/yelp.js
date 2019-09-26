@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { pageYelpData } from "../helpers/pageDataQuery";
+import { otherAPI } from "../helpers/pageDataQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -43,6 +43,7 @@ const Yelp = ({ page }) => {
   const [selectedTile, setSelectedTile] = useState({});
   const [yelpData, setYelpData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const baseURL = "other";
 
   const handleInfoOpen = (e, tile) => {
     setSelectedTile(tile);
@@ -53,7 +54,8 @@ const Yelp = ({ page }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const data = await pageYelpData(page.pageTitle);
+        const data = await otherAPI(baseURL).get(`/${page.pageTItle}`);
+        console.log(isLoading);
         setYelpData(data);
         setIsLoading(false);
       } catch (error) {
@@ -63,7 +65,7 @@ const Yelp = ({ page }) => {
     };
 
     isLoading && getData();
-  }, [yelpData]);
+  }, [isLoading]);
 
   return isLoading ? (
     <Paper className={classes.root}>

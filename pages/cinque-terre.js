@@ -5,7 +5,13 @@ import { getAllPageData } from "../src/helpers/pageDataQuery";
 import PageLayout from "../src/components/pageLayout";
 import { Container } from "@material-ui/core";
 
-const CinqeTerre = ({ tData }) => {
+const apiKeys = {
+  MAPBOX_KEY: process.env.MAPBOX_KEY,
+  WEATHER_KEY: process.env.WEATHER_KEY,
+  YELP_KEY: process.env.YELP_KEY
+};
+
+const CinqeTerre = ({ tData, apiKeys }) => {
   const router = useRouter();
   const pageTitle = getPageTitleProper(router.pathname);
   const page = getPageTitle(router.pathname);
@@ -13,7 +19,9 @@ const CinqeTerre = ({ tData }) => {
   return (
     <div>
       <Head>
-        <title>{`Our Italy Trip | ${pageTitle}`} </title>
+        <title>
+          {`Our Italy Trip | ${pageTitle}`} apiKeys={apiKeys}{" "}
+        </title>
       </Head>
       <Container>
         <PageLayout page={{ page, pageTitle }} tData={tData} />
@@ -22,8 +30,7 @@ const CinqeTerre = ({ tData }) => {
   );
 };
 
-CinqeTerre.getInitialProps = async ({ pathname }) => {
-  const data = await getAllPageData(pathname);
-  return { tData: data };
+CinqeTerre.getInitialProps = async () => {
+  return { apiKeys };
 };
 export default CinqeTerre;

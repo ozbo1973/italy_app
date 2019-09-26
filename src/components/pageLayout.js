@@ -12,9 +12,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PageLayout = ({ children, tData, page }) => {
+const PageLayout = ({ children, tData, page, apiKeys }) => {
   const classes = useStyles();
-  const { weatherData, itnData, dnlData, yelpData } = tData;
+  const { YELP_KEY, WEATHER_KEY, MAPBOX_KEY } = apiKeys;
   const { pageTitle } = page;
 
   return (
@@ -27,7 +27,7 @@ const PageLayout = ({ children, tData, page }) => {
             </Typography>
           </Grid>
           <Grid item>
-            <Weather page={page} />
+            <Weather page={page} apiKey={{ MAPBOX_KEY, WEATHER_KEY }} />
           </Grid>
         </Grid>
         <Grid item md={9} xs={12}>
@@ -39,7 +39,7 @@ const PageLayout = ({ children, tData, page }) => {
           <LinksAndDocs page={page} />
         </Grid>
         <Grid item md={6} xs={12}>
-          <Yelp page={page} />
+          <Yelp page={page} apiKey={{ YELP_KEY, MAPBOX_KEY }} />
         </Grid>
       </Grid>
     </Grid>
