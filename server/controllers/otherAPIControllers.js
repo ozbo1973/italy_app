@@ -39,19 +39,19 @@ exports.pageWeatherData = async (req, res) => {
   res.send(weatherData);
 };
 
-// const getYelpList = async ({ lat, lng }, { YELP_KEY }) => {
-//   const yelpURL =
-//     "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search";
-//   const { data } = await axios.get(yelpURL, {
-//     params: {
-//       latitude: lat,
-//       longitude: lng,
-//       sort_by: "rating"
-//     },
-//     headers: { Authorization: `Bearer ${YELP_KEY}` }
-//   });
-//   return data;
-// };
+const getYelpList = async ({ lat, lng }) => {
+  const yelpURL =
+    "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search";
+  const { data } = await axios.get(yelpURL, {
+    params: {
+      latitude: lat,
+      longitude: lng,
+      sort_by: "rating"
+    },
+    headers: { Authorization: `Bearer ${YELP_KEY}` }
+  });
+  return data;
+};
 
 // export const pageYelpData = async (page, apiKey) => {
 //   const location = await getGeoData(`${page},Italy`, apiKey);
@@ -59,5 +59,9 @@ exports.pageWeatherData = async (req, res) => {
 
 //   return yelpData;
 // };
+
+exports.pageYelpData = async (req, res) => {
+  res.send({ trip: req.params.trip });
+};
 
 module.exports = exports;
