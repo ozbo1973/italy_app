@@ -5,10 +5,9 @@ import { pageYelpData } from "../src/helpers/pageDataQuery";
 import PageLayout from "../src/components/pageLayout";
 import { Container } from "@material-ui/core";
 
-const Rome = ({ tData, apiKeys }) => {
-  const router = useRouter();
-  const pageTitle = getPageTitleProper(router.pathname);
-  const page = getPageTitle(router.pathname);
+const Rome = ({ getPage }) => {
+  const pageTitle = getPageTitleProper(getPage);
+  const page = getPageTitle(getPage);
 
   return (
     <div>
@@ -16,23 +15,13 @@ const Rome = ({ tData, apiKeys }) => {
         <title>{`Our Italy Trip | ${pageTitle}`} </title>
       </Head>
       <Container>
-        <PageLayout
-          page={{ page, pageTitle }}
-          tData={tData}
-          apiKeys={apiKeys}
-        />
+        <PageLayout page={{ page, pageTitle }} />
       </Container>
     </div>
   );
 };
 
-Rome.getInitialProps = async ({ query }) => {
-  const apiKeys = {
-    MAPBOX_KEY: process.env.MAPBOX_KEY,
-    WEATHER_KEY: process.env.WEATHER_KEY,
-    YELP_KEY: process.env.YELP_KEY
-  };
-  // const yelpData= await pageYelpData()
-  return { apiKeys };
+Rome.getInitialProps = async ({ pathname }) => {
+  return { getPage: pathname };
 };
 export default Rome;

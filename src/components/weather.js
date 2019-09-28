@@ -42,7 +42,8 @@ const Weather = ({ page }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await otherAPI(baseURL).get(`/${page.pageTItle}`);
+        const { data } = await otherAPI(baseURL).get(`/${page.pageTitle}`);
+        console.log(data);
         setWeatherData({ currently: data.currently, daily: data.daily });
         setIsloading(false);
       } catch (error) {
@@ -54,7 +55,7 @@ const Weather = ({ page }) => {
     if (isLoading) {
       getData();
     }
-  }, [weatherData]);
+  }, [isLoading]);
 
   return isLoading ? (
     <Paper className={classes.root}>
@@ -73,6 +74,13 @@ const Weather = ({ page }) => {
           </Typography>
           <Typography variant="body2">Summary: {currently.summary}</Typography>
           <Typography variant="body2">{`Cloud Cover: ${currently.cloudCover}`}</Typography>
+          <Typography variant="body2">
+            <span>Today:</span> {getIcon(daily.data[1].icon)}
+            <span>
+              H:{daily.data[0].temperatureHigh} L:{daily.data[0].temperatureLow}
+            </span>
+            <div>{daily.data[1].summary}</div>
+          </Typography>
           <Divider />
           <Typography variant="body2">
             <span>Tomorrow:</span> {getIcon(daily.data[1].icon)}
