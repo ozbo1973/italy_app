@@ -10,7 +10,7 @@ import {
   IconButton,
   Grid
 } from "@material-ui/core";
-import MoreIcon from "@material-ui/icons/Morevert";
+import MoreIcon from "@material-ui/icons/MoreVert";
 
 const useStyles = makeStyles(theme => ({
   root: {
