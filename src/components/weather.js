@@ -43,7 +43,6 @@ const Weather = ({ page }) => {
     const getData = async () => {
       try {
         const { data } = await otherAPI(baseURL).get(`/${page.pageTitle}`);
-        console.log(data);
         setWeatherData({ currently: data.currently, daily: data.daily });
         setIsloading(false);
       } catch (error) {

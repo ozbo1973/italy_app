@@ -7,7 +7,6 @@ const getGeoData = async address => {
   const geoURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
     address
   )}.json?access_token=${MAPBOX_KEY}`;
-  console.log(address);
   try {
     const { data } = await axios.get(geoURL);
     const lat = data.features[0].center[1];
@@ -33,15 +32,13 @@ const getWeather = async ({ lat, lng }) => {
 
 exports.pageWeatherData = async (req, res) => {
   const { place } = req.params;
-  console.log(place);
   const location = await getGeoData(`${place},Italy`);
   const weatherData = await getWeather(location);
   res.send(weatherData);
 };
 
 const getYelpList = async ({ lat, lng }) => {
-  const yelpURL =
-    "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search";
+  const yelpURL = "https://api.yelp.com/v3/businesses/search";
   const { data } = await axios.get(yelpURL, {
     params: {
       latitude: lat,
@@ -61,7 +58,10 @@ const getYelpList = async ({ lat, lng }) => {
 // };
 
 exports.pageYelpData = async (req, res) => {
-  res.send({ trip: req.params.trip });
+  const { place, trip } = req.params;
+  const location = await getGeoData(`${place},${trip}`);
+  const yelpData = await getYelpList(location);
+  res.send(yelpData);
 };
 
 module.exports = exports;

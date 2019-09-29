@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { otherAPI } from "../helpers/pageDataQuery";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
@@ -9,7 +10,7 @@ import IconButton from "@material-ui/core/IconButton";
 import InfoIcon from "@material-ui/icons/Info";
 import Paper from "@material-ui/core/Paper";
 import YelpDialog from "./yelpDialog";
-import { CircularProgress } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,19 +44,21 @@ const Yelp = ({ page }) => {
   const [selectedTile, setSelectedTile] = useState({});
   const [yelpData, setYelpData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const baseURL = "other";
+  const baseURL = "yelp";
 
   const handleInfoOpen = (e, tile) => {
-    setSelectedTile(tile);
-    setDialogOpen(true);
+    // setSelectedTile(tile);
+    // setDialogOpen(true);
+    e.preventDefault();
+    window.open(tile.url, "_blank");
   };
   const handleInfoClose = e => setDialogOpen(false);
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const data = await otherAPI(baseURL).get(`/${page.pageTItle}`);
-        console.log(isLoading);
+        const { data } = await otherAPI(baseURL).get(`/${page.pageTitle}`);
+        console.log(data);
         setYelpData(data);
         setIsLoading(false);
       } catch (error) {
