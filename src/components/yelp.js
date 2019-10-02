@@ -58,7 +58,6 @@ const Yelp = ({ page }) => {
     const getData = async () => {
       try {
         const { data } = await otherAPI(baseURL).get(`/${page.pageTitle}`);
-        console.log(data);
         setYelpData(data);
         setIsLoading(false);
       } catch (error) {

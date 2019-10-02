@@ -103,7 +103,8 @@ const LinksAndDocs = ({ page, docsData }) => {
           }}
           editable={{
             onRowAdd: async newData => {
-              const place = newData.place.split("-").join("");
+              let place = docsData ? newData.place : page.page;
+              place = place.split("-").join("");
               await dataTableAPI(baseURL).post(pageRoute, {
                 ...newData,
                 place

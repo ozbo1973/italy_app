@@ -14,8 +14,9 @@ exports.getAlllinksDocs = async (req, res) => {
 };
 
 exports.createLinksDocs = async (req, res) => {
-  const { place, trip } = req.params;
-  const addItem = { ...req.body, place, trip };
+  const { place, trip, category } = req.params;
+
+  const addItem = { ...req.body, place, trip, category };
   try {
     const newLinkDoc = await LinksDocs.create(addItem);
     res.status(201).json(newLinkDoc);

@@ -43,7 +43,7 @@ const DocsMenu = () => {
       </ListItem>
       <ListItem>
         <ListItemText>
-          <Link href="/docsData?trip=italy&category=6" as="/other">
+          <Link href="/docsData?trip=italy&category=6" as="/docsData/other">
             <a>Other</a>
           </Link>
         </ListItemText>

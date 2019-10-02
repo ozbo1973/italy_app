@@ -23,7 +23,6 @@ const DocsData = () => {
   const classes = useStyles();
   const router = useRouter();
   const { category = 0 } = router.query;
-  console.log(category);
 
   return (
     <Container className={classes.root}>
