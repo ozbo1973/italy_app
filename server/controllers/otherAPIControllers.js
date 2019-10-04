@@ -31,8 +31,9 @@ const getWeather = async ({ lat, lng }) => {
 };
 
 exports.pageWeatherData = async (req, res) => {
-  const { place } = req.params;
-  const location = await getGeoData(`${place},Italy`);
+  const { place, trip } = req.params;
+
+  const location = await getGeoData(`${place},${trip}`);
   const weatherData = await getWeather(location);
   res.send(weatherData);
 };
