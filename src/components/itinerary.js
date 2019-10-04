@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { dataTableAPI } from "../helpers/pageDataQuery";
+import { dataTableAPI } from "../helpers/apis";
 import { formatDate } from "../helpers/pageHelpers";
 import useStyles from "../../static/styles/dataTable.style";
 import MaterialTable from "material-table";
@@ -33,14 +33,14 @@ const Itinerary = ({ page }) => {
   const classes = useStyles();
   const [tblData, setTblData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const baseURL = "itin";
+  const apiData = { tbl: "itin", trip: "italy" };
   const dataTitle = "Itinerary";
   const pageRoute = `/${page.page}`;
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await dataTableAPI(baseURL).get(`/${page.page}`);
+        const { data } = await dataTableAPI(apiData).get(`/${page.page}`);
         setTblData({ columns, data });
         setIsLoading(false);
       } catch (error) {
@@ -65,18 +65,18 @@ const Itinerary = ({ page }) => {
           }}
           editable={{
             onRowAdd: async newData => {
-              await dataTableAPI(baseURL).post(pageRoute, newData);
+              await dataTableAPI(apiData).post(pageRoute, newData);
               setIsLoading(true);
             },
             onRowUpdate: async (newData, oldData) => {
-              await dataTableAPI(baseURL).patch(
+              await dataTableAPI(apiData).patch(
                 `${pageRoute}/${oldData._id}`,
                 newData
               );
               setIsLoading(true);
             },
             onRowDelete: async oldData => {
-              await dataTableAPI(baseURL).delete(`${pageRoute}/${oldData._id}`);
+              await dataTableAPI(apiData).delete(`${pageRoute}/${oldData._id}`);
               setIsLoading(true);
             }
           }}

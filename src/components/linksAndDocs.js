@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { dataTableAPI } from "../helpers/pageDataQuery";
+import { dataTableAPI } from "../helpers/apis";
 import useStyles from "../../static/styles/dataTable.style";
 import MaterialTable from "material-table";
 import Paper from "@material-ui/core/Paper";
@@ -69,7 +69,8 @@ const LinksAndDocs = ({ page, docsData }) => {
   const classes = useStyles();
   const [tblData, setTblData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const baseURL = docsData ? "docsData" : "linksdocs";
+  const tbl = docsData ? "docsData" : "linksdocs";
+  const apiData = { tbl, trip: "italy" };
   const dataTitle = "Links And Docs";
   const pageRoute = docsData ? `/${page}` : `/${page.page}`;
   const useColumns = docsData ? columns_docsdata : columns;
@@ -77,7 +78,7 @@ const LinksAndDocs = ({ page, docsData }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await dataTableAPI(baseURL).get(pageRoute);
+        const { data } = await dataTableAPI(apiData).get(pageRoute);
         setTblData({ columns: useColumns(pageRoute), data });
         setIsLoading(false);
       } catch (error) {
@@ -105,21 +106,21 @@ const LinksAndDocs = ({ page, docsData }) => {
             onRowAdd: async newData => {
               let place = docsData ? newData.place : page.page;
               place = place.split("-").join("");
-              await dataTableAPI(baseURL).post(pageRoute, {
+              await dataTableAPI(apiData).post(pageRoute, {
                 ...newData,
                 place
               });
               setIsLoading(true);
             },
             onRowUpdate: async (newData, oldData) => {
-              await dataTableAPI(baseURL).patch(
+              await dataTableAPI(apiData).patch(
                 `${pageRoute}/${oldData._id}`,
                 newData
               );
               setIsLoading(true);
             },
             onRowDelete: async oldData => {
-              await dataTableAPI(baseURL).delete(`${pageRoute}/${oldData._id}`);
+              await dataTableAPI(apiData).delete(`${pageRoute}/${oldData._id}`);
               setIsLoading(true);
             }
           }}

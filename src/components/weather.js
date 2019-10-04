@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { otherAPI } from "../helpers/pageDataQuery";
+import { otherAPI } from "../helpers/apis";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
@@ -37,12 +37,12 @@ const Weather = ({ page }) => {
   const { currently = {}, daily = [] } = weatherData;
   const classes = useStyles();
   const getIcon = icon => weatherIcons[icon.split("-").join("")];
-  const baseURL = "weather";
+  const apiOptions = { api: "weather", trip: "italy" };
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await otherAPI(baseURL).get(`/${page.pageTitle}`);
+        const { data } = await otherAPI(apiOptions).get(`/${page.pageTitle}`);
         setWeatherData({ currently: data.currently, daily: data.daily });
         setIsloading(false);
       } catch (error) {

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { otherAPI } from "../helpers/pageDataQuery";
+import { otherAPI } from "../helpers/apis";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -44,7 +43,7 @@ const Yelp = ({ page }) => {
   const [selectedTile, setSelectedTile] = useState({});
   const [yelpData, setYelpData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const baseURL = "yelp";
+  const apiOptions = { api: "yelp", trip: "italy" };
 
   const handleInfoOpen = (e, tile) => {
     // setSelectedTile(tile);
@@ -57,7 +56,7 @@ const Yelp = ({ page }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await otherAPI(baseURL).get(`/${page.pageTitle}`);
+        const { data } = await otherAPI(apiOptions).get(`/${page.pageTitle}`);
         setYelpData(data);
         setIsLoading(false);
       } catch (error) {
