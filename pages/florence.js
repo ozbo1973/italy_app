@@ -1,13 +1,9 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { getPageTitleProper, getPageTitle } from "../src/helpers/pageHelpers";
-import { getAllPageData } from "../src/helpers/pageDataQuery";
 import PageLayout from "../src/components/pageLayout";
 import { Container } from "@material-ui/core";
 
 const Florence = ({ getPage }) => {
-  // const router = useRouter();
-
   const pageTitle = getPageTitleProper(getPage);
   const page = getPageTitle(getPage);
 
