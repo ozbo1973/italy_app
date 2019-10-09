@@ -13,7 +13,7 @@ const Rome = ({ getPage }) => {
         <title>{`Our Italy Trip | ${pageTitle}`} </title>
       </Head>
       <Container>
-        <PageLayout page={{ page, pageTitle }} />
+        <PageLayout page={{ page, pageTitle }} imgSrc="/static/img/rome.jpg" />
       </Container>
     </div>
   );

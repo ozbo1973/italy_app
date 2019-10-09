@@ -7,7 +7,9 @@ import {
   Card,
   CardContent,
   Divider,
-  CircularProgress
+  CircularProgress,
+  Avatar,
+  Grid
 } from "@material-ui/core";
 import Rain from "@material-ui/icons/BeachAccess";
 import ClearDay from "@material-ui/icons/WbSunny";
@@ -19,6 +21,10 @@ const useStyles = makeStyles(theme => ({
   },
   progress: {
     margin: theme.spacing(2)
+  },
+  avatar: {
+    width: 100,
+    height: 100
   }
 }));
 
@@ -31,7 +37,7 @@ const weatherIcons = {
   partlycloudyday: <Cloudy />
 };
 
-const Weather = ({ page }) => {
+const Weather = ({ page, imgSrc }) => {
   const [isLoading, setIsloading] = useState(true);
   const [weatherData, setWeatherData] = useState({});
   const { currently = {}, daily = [] } = weatherData;
@@ -64,12 +70,19 @@ const Weather = ({ page }) => {
     <Paper className={classes.root}>
       <Card>
         <CardContent>
-          <Typography variant="h5" component="h5">
-            Weather {getIcon(currently.icon)}
-          </Typography>
+          <Grid container>
+            <Avatar
+              src={imgSrc}
+              alt={page.pageTitle}
+              className={classes.avatar}
+            />
+            <Typography variant="h5" component="h5">
+              Weather
+            </Typography>
+          </Grid>
 
           <Typography variant="h6" component="h6">
-            Temperature: {currently.temperature}
+            Temperature: {currently.temperature} {getIcon(currently.icon)}
           </Typography>
           <Typography variant="body2">Summary: {currently.summary}</Typography>
           <Typography variant="body2">{`Cloud Cover: ${currently.cloudCover}`}</Typography>

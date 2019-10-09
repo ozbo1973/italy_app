@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { dataTableAPI } from "../helpers/apis";
 import useStyles from "../../static/styles/dataTable.style";
 import MaterialTable from "material-table";
@@ -15,7 +15,8 @@ const columns = pathname => [
       3: "Lodging",
       4: "Luggage",
       5: "Events",
-      6: "Other"
+      6: "Other",
+      7: "pics"
     }
   },
   { title: "Description", field: "description" },
@@ -67,11 +68,14 @@ const columns_docsdata = pathname => [
 
 const LinksAndDocs = ({ page, docsData }) => {
   const classes = useStyles();
+  const router = useRouter();
   const [tblData, setTblData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const tbl = docsData ? "docsData" : "linksdocs";
   const apiData = { tbl, trip: "italy" };
-  const dataTitle = "Links And Docs";
+  const dataTitle = docsData
+    ? `Links and Docs - ${router.query.catName}`
+    : "Links And Docs";
   const pageRoute = docsData ? `/${page}` : `/${page.page}`;
   const useColumns = docsData ? columns_docsdata : columns;
 
@@ -131,102 +135,3 @@ const LinksAndDocs = ({ page, docsData }) => {
 };
 
 export default LinksAndDocs;
-
-// import { useState, useEffect } from "react";
-// import { dataTableAPI } from "../helpers/pageDataQuery";
-// import { formatDate } from "../helpers/pageHelpers";
-// import DataTable from "./dataTable";
-// import useStyles from "../../static/styles/dataTable.style";
-// import { Paper, CircularProgress } from "@material-ui/core";
-
-// const linksAndDocsData = (pathname, data) => ({
-//   columns: [
-//     {
-//       title: "Category",
-//       field: "category",
-//       lookup: {
-//         1: "Flight",
-//         2: "Train",
-//         3: "Lodging",
-//         4: "Luggage",
-//         5: "Events",
-//         6: "Other"
-//       }
-//     },
-//     { title: "Description", field: "description" },
-//     {
-//       title: "View",
-//       field: "url",
-//       render: rowData => (
-//         <Link
-//           href={`/fileViewer?descr=${rowData.description}&url=${rowData.url}&from=/${pathname}`}
-//           as={`/fileViewer/${rowData.id}`}
-//         >
-//           <a>View</a>
-//         </Link>
-//       )
-//     }
-//   ],
-//   data
-// });
-
-// const LinksAndDocs = ({ page }) => {
-//   const classes = useStyles();
-//   const [lnksDocsData, setLnksDocsData] = useState({});
-//   const [isLoading, setIsLoading] = useState(true);
-//   const baseURL = "linksdocs";
-//   const dataTitle = "Links and Docs";
-
-//   useEffect(() => {
-//     const getData = async () => {
-//       try {
-//         const { data } = await dataTableAPI(baseURL).get(`/${page.page}`);
-//         console.log(data);
-//         setLnksDocsData(data);
-//         setIsLoading(false);
-//       } catch (error) {
-//         console.log(error);
-//         setIsLoading(true);
-//       }
-//     };
-
-//     isLoading && getData();
-//   }, [lnksDocsData]);
-
-//   return isLoading ? (
-//     <Paper className={classes.root}>
-//       <CircularProgress />
-//     </Paper>
-//   ) : (
-//     <Paper className={classes.root}>
-//       <div className={classes.tableWrapper}>
-//         <DataTable
-//           pageRoute={`/${page.page}`}
-//           baseURL={baseURL}
-//           tableData={linksAndDocsData(lnksDocsData)}
-//           dataTitle={dataTitle}
-//         />
-//       </div>
-//     </Paper>
-//   );
-// };
-
-// export default LinksAndDocs;
-
-// const LinksAndDocs = ({ data, path }) => {
-//   const classes = useStyles();
-
-//   return (
-//     <Paper className={classes.root}>
-//       <div className={classes.tableWrapper}>
-//         <DataTable
-//           tableData={linksAndDocsData(path, data)}
-//           dataTitle="Docs and Links"
-//           dataComponent="LinksAndDocs"
-//         />
-//       </div>
-//     </Paper>
-//   );
-// };
-
-// export default LinksAndDocs;

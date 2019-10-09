@@ -73,10 +73,7 @@ const Nav = () => {
             className={classes.menuButton}
           >
             <ActiveLink href="/">
-              <img
-                src="static/img/italy_blank.svg"
-                className={classes.homeImg}
-              />
+              <img src="static/img/italy.png" className={classes.homeImg} />
             </ActiveLink>
           </IconButton>
           <div className={classes.title}>

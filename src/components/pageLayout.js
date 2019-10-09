@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PageLayout = ({ children, page }) => {
+const PageLayout = ({ children, page, imgSrc }) => {
   const classes = useStyles();
   const { pageTitle } = page;
 
@@ -20,13 +20,13 @@ const PageLayout = ({ children, page }) => {
     <Grid container direction="column" spacing={5} className={classes.root}>
       <Grid item container spacing={3}>
         <Grid item md={3} xs={12} container direction="column">
-          <Grid item>
+          <Grid item container>
             <Typography variant="h3" component="h1">
               {`${pageTitle}`}
             </Typography>
           </Grid>
           <Grid item>
-            <Weather page={page} />
+            <Weather page={page} imgSrc={imgSrc} />
           </Grid>
         </Grid>
         <Grid item md={9} xs={12}>

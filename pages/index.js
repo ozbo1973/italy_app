@@ -13,7 +13,8 @@ const useStyles = makeStyles(theme => ({
   imgContainer: {
     height: "100vh",
     width: "100%",
-    background: 'no-repeat top/100% url("./static/img/italy_graphic2.gif")'
+    background: 'no-repeat top/100% url("./static/img/italy_graphic2.gif")',
+    marginTop: "1rem"
   }
 }));
 
