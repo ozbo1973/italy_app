@@ -46,23 +46,18 @@ const columns_docsdata = pathname => [
       florence: "florence",
       cinqueterre: "cinque-terre",
       venice: "venice"
-    }
+    },
+    render: rowData => (
+      <a href={rowData.url} target="_blank">
+        {rowData.place}
+      </a>
+    )
   },
   { title: "Description", field: "description" },
   {
-    title: "View",
+    title: "URL",
     field: "url",
-    render: rowData => (
-      // <Link
-      //   href={`/fileViewer?descr=${rowData.description}&url=${rowData.url}&from=${pathname}`}
-      //   as={`/fileViewer/${rowData._id}`}
-      // >
-      //   <a>View</a>
-      // </Link>
-      <a href={rowData.url} target="_blank">
-        View
-      </a>
-    )
+    render: rowData => "URL"
   }
 ];
 

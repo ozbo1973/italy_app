@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { getPageTitleProper } from "../helpers/pageHelpers";
+import { getPageTitleProper } from "../../helpers/pageHelpers";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";

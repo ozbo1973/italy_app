@@ -1,5 +1,5 @@
 import App from "next/app";
-import Nav from "../src/components/nav";
+import Nav from "../src/components/nav/nav";
 import { ThemeProvider } from "@material-ui/styles";
 import { CssBaseline, Container } from "@material-ui/core";
 import { responsiveFontSizes } from "@material-ui/core/styles";

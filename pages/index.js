@@ -1,5 +1,5 @@
 import Head from "next/head";
-import DocsMenu from "../src/components/docsMenu";
+import DocsMenu from "../src/components/nav/docsMenu";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Grid } from "@material-ui/core";
 

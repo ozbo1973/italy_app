@@ -6,7 +6,7 @@ exports.getAlllinksDocs = async (req, res) => {
     const linksDocs = await LinksDocs.find({ trip: trip, category: category });
     res.json(linksDocs);
   } catch (error) {
-    res.send(err);
+    res.send(error);
   }
 };
 

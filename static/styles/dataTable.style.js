@@ -5,7 +5,7 @@ const style = makeStyles(theme => ({
     marginTop: theme.spacing(1)
   },
   tableWrapper: {
-    overflow: "auto",
+    // overflow: "auto",
     backgroundColor: theme.palette.secondary.main,
     padding: theme.spacing(1),
     borderRadius: "5px"
