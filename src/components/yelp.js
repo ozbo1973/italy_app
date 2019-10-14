@@ -10,7 +10,6 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import IconButton from "@material-ui/core/IconButton";
 import InfoIcon from "@material-ui/icons/Info";
 import Paper from "@material-ui/core/Paper";
-import YelpDialog from "./yelpDialog";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles(theme => ({
@@ -39,78 +38,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Yelp = ({ page }) => {
+const DisplayYelp = ({ handleInfoOpen, yelpData, matches }) => {
   const classes = useStyles();
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedTile, setSelectedTile] = useState({});
-  const [yelpData, setYelpData] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-  const apiOptions = { api: "yelp", trip: "italy" };
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("md"));
-
-  const handleInfoOpen = (e, tile) => {
-    // setSelectedTile(tile);
-    // setDialogOpen(true);
-    e.preventDefault();
-    window.open(tile.url);
-  };
-  const handleInfoClose = e => setDialogOpen(false);
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const { data } = await otherAPI(apiOptions).get(`/${page.pageTitle}`);
-        setYelpData(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(true);
-      }
-    };
-
-    isLoading && getData();
-  }, [isLoading]);
-
-  return isLoading ? (
-    <Paper className={classes.root}>
-      <CircularProgress />
-    </Paper>
-  ) : (
-    <DisplayYelp
-      isOpen={dialogOpen}
-      handleInfoClose={handleInfoClose}
-      selectedTile={selectedTile}
-      handleInfoOpen={handleInfoOpen}
-      yelpData={yelpData}
-      matches={matches}
-    />
-  );
-};
-
-const DisplayYelp = ({
-  isOpen,
-  handleInfoClose,
-  selectedTile,
-  handleInfoOpen,
-  yelpData,
-  matches
-}) => {
-  const classes = useStyles();
-  return isOpen ? (
-    <YelpDialog
-      onClose={handleInfoClose}
-      selectedValue={selectedTile}
-      open={isOpen}
-    />
-  ) : (
+  const cols = matches ? 1 : 2;
+  return (
     <Paper className={classes.root}>
       <GridList cellHeight={180} className={classes.gridList}>
         <GridListTile key="Subheader" cols={2} style={{ height: "auto" }}>
           <ListSubheader component="div">Places to Eat (Yelp)</ListSubheader>
         </GridListTile>
         {yelpData.businesses.map(tile => (
-          <GridListTile cols={`${matches ? 1 : 2}`} key={tile.id}>
+          <GridListTile cols={cols} key={tile.id}>
             <img src={tile.image_url} alt={tile.name} />
             <GridListTileBar
               title={tile.name}
@@ -135,8 +73,46 @@ const DisplayYelp = ({
       </GridList>
     </Paper>
   );
-  {
-  }
+};
+
+const Yelp = ({ page }) => {
+  const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
+  const [yelpData, setYelpData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const apiOptions = { api: "yelp", trip: "italy" };
+
+  const handleInfoOpen = (e, tile) => {
+    e.preventDefault();
+    location.href = tile.url;
+  };
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const { data } = await otherAPI(apiOptions).get(`/${page.pageTitle}`);
+        setYelpData(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(true);
+      }
+    };
+    isLoading && getData();
+  }, [isLoading]);
+
+  return isLoading ? (
+    <Paper className={classes.root}>
+      <CircularProgress />
+    </Paper>
+  ) : (
+    <DisplayYelp
+      handleInfoOpen={handleInfoOpen}
+      yelpData={yelpData}
+      matches={matches}
+    />
+  );
 };
 
 export default Yelp;
