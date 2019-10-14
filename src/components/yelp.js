@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { otherAPI } from "../helpers/apis";
 import { makeStyles } from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
@@ -44,12 +46,14 @@ const Yelp = ({ page }) => {
   const [yelpData, setYelpData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const apiOptions = { api: "yelp", trip: "italy" };
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
 
   const handleInfoOpen = (e, tile) => {
     // setSelectedTile(tile);
     // setDialogOpen(true);
     e.preventDefault();
-    window.open(tile.url, "_blank");
+    window.open(tile.url);
   };
   const handleInfoClose = e => setDialogOpen(false);
 
@@ -79,6 +83,7 @@ const Yelp = ({ page }) => {
       selectedTile={selectedTile}
       handleInfoOpen={handleInfoOpen}
       yelpData={yelpData}
+      matches={matches}
     />
   );
 };
@@ -88,7 +93,8 @@ const DisplayYelp = ({
   handleInfoClose,
   selectedTile,
   handleInfoOpen,
-  yelpData
+  yelpData,
+  matches
 }) => {
   const classes = useStyles();
   return isOpen ? (
@@ -104,7 +110,7 @@ const DisplayYelp = ({
           <ListSubheader component="div">Places to Eat (Yelp)</ListSubheader>
         </GridListTile>
         {yelpData.businesses.map(tile => (
-          <GridListTile key={tile.id}>
+          <GridListTile cols={`${matches ? 1 : 2}`} key={tile.id}>
             <img src={tile.image_url} alt={tile.name} />
             <GridListTileBar
               title={tile.name}
