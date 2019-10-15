@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { dataTableAPI } from "../helpers/apis";
+import { usePlacesData } from "../helpers/hooks/useStaticData";
 import { formatDate } from "../helpers/pageHelpers";
 import useStyles from "../../static/styles/dataTable.style";
 import MaterialTable from "material-table";
@@ -31,16 +32,17 @@ const columns = [
 
 const Itinerary = ({ page }) => {
   const classes = useStyles();
+  const { placeRoute } = usePlacesData();
   const [tblData, setTblData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const apiData = { tbl: "itin", trip: "italy" };
   const dataTitle = "Itinerary";
-  const pageRoute = `/${page.page}`;
+  const pageRoute = placeRoute(page);
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await dataTableAPI(apiData).get(`/${page.page}`);
+        const { data } = await dataTableAPI(apiData).get(pageRoute);
         setTblData({ columns, data });
         setIsLoading(false);
       } catch (error) {

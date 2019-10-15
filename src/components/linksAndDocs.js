@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import { dataTableAPI } from "../helpers/apis";
 import useStyles from "../../static/styles/dataTable.style";
 import MaterialTable from "material-table";
 import Paper from "@material-ui/core/Paper";
+import { usePlacesData } from "../helpers/hooks/useStaticData";
 
-const columns = pathname => [
+const columns = [
   {
     title: "Category",
     field: "category",
@@ -16,7 +16,7 @@ const columns = pathname => [
       4: "Luggage",
       5: "Events",
       6: "Other",
-      7: "pics"
+      7: "Photos"
     }
   },
   { title: "Description", field: "description" },
@@ -24,12 +24,6 @@ const columns = pathname => [
     title: "View",
     field: "url",
     render: rowData => (
-      // <Link
-      //   href={`/fileViewer?descr=${rowData.description}&url=${rowData.url}&from=${pathname}`}
-      //   as={`/fileViewer/${rowData._id}`}
-      // >
-      //   <a>View</a>
-      // </Link>
       <a href={rowData.url} target="_blank">
         View
       </a>
@@ -37,7 +31,7 @@ const columns = pathname => [
   }
 ];
 
-const columns_docsdata = pathname => [
+const columns_docsdata = [
   {
     title: "Place",
     field: "place",
@@ -63,22 +57,20 @@ const columns_docsdata = pathname => [
 
 const LinksAndDocs = ({ page, docsData }) => {
   const classes = useStyles();
-  const router = useRouter();
+  const { placeRoute } = usePlacesData();
   const [tblData, setTblData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const tbl = docsData ? "docsData" : "linksdocs";
   const apiData = { tbl, trip: "italy" };
-  const dataTitle = docsData
-    ? `Links and Docs - ${router.query.catName}`
-    : "Links And Docs";
-  const pageRoute = docsData ? `/${page}` : `/${page.page}`;
+  const dataTitle = "Links / Docs / Pics";
+  const pageRoute = placeRoute(page);
   const useColumns = docsData ? columns_docsdata : columns;
 
   useEffect(() => {
     const getData = async () => {
       try {
         const { data } = await dataTableAPI(apiData).get(pageRoute);
-        setTblData({ columns: useColumns(pageRoute), data });
+        setTblData({ columns: useColumns, data });
         setIsLoading(false);
       } catch (error) {
         console.log(error);

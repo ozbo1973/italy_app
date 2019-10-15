@@ -1,3 +1,4 @@
+import { usePlacesData } from "../helpers/hooks/useStaticData";
 import Weather from "./weather";
 import Itinerary from "./itinerary";
 import LinksAndDocs from "./linksAndDocs";
@@ -14,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 
 const PageLayout = ({ children, page, imgSrc }) => {
   const classes = useStyles();
-  const { pageTitle } = page;
+  const { properPlace } = usePlacesData();
 
   return (
     <Grid container direction="column" spacing={5} className={classes.root}>
@@ -22,7 +23,7 @@ const PageLayout = ({ children, page, imgSrc }) => {
         <Grid item md={3} xs={12} container direction="column">
           <Grid item container>
             <Typography variant="h3" component="h1">
-              {`${pageTitle}`}
+              {`${properPlace(page)}`}
             </Typography>
           </Grid>
           <Grid item>

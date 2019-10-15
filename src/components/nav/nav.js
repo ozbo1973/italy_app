@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { usePlacesData } from "../../helpers/hooks/useStaticData";
 import ActiveLink from "../activeLink";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -73,15 +74,14 @@ const useStyles = makeStyles(theme => {
   };
 });
 
-const places = ["rome", "florence", "cinque terre", "venice"];
-const page = pg => pg.split(" ").join("-");
-
 const DisplayDesktop = () => {
   const classes = useStyles();
+  const { places, page, properPlace } = usePlacesData();
+
   return places.map(place => (
     <div key={`${place}_dtNav`} className={classes.deskTopRoot}>
       <Typography variant="h6">
-        <ActiveLink href={`/${page(place)}`}>{place}</ActiveLink>
+        <ActiveLink href={`/${page(place)}`}>{properPlace(place)}</ActiveLink>
       </Typography>
     </div>
   ));
@@ -89,6 +89,7 @@ const DisplayDesktop = () => {
 
 const DisplayMobile = ({ close, placesEl }) => {
   const classes = useStyles();
+  const { places, page, properPlace } = usePlacesData();
   const open = Boolean(placesEl);
 
   return (
@@ -109,7 +110,9 @@ const DisplayMobile = ({ close, placesEl }) => {
           className={classes.mobileMenuItem}
         >
           <Typography variant="h6">
-            <ActiveLink href={`/${page(place)}`}>{place}</ActiveLink>
+            <ActiveLink href={`/${page(place)}`}>
+              {properPlace(place)}
+            </ActiveLink>
           </Typography>
         </MenuItem>
       ))}

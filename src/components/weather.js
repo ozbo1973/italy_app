@@ -48,7 +48,7 @@ const Weather = ({ page, imgSrc }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await otherAPI(apiOptions).get(`/${page.pageTitle}`);
+        const { data } = await otherAPI(apiOptions).get(`/${page}`);
         setWeatherData({ currently: data.currently, daily: data.daily });
         setIsloading(false);
       } catch (error) {
@@ -71,11 +71,7 @@ const Weather = ({ page, imgSrc }) => {
       <Card>
         <CardContent>
           <Grid container>
-            <Avatar
-              src={imgSrc}
-              alt={page.pageTitle}
-              className={classes.avatar}
-            />
+            <Avatar src={imgSrc} alt={page} className={classes.avatar} />
             <Typography variant="h5" component="h5">
               Weather
             </Typography>

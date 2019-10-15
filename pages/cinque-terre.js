@@ -1,20 +1,19 @@
 import Head from "next/head";
-import { getPageTitleProper, getPageTitle } from "../src/helpers/pageHelpers";
+import { usePlacesData } from "../src/helpers/hooks/useStaticData";
 import PageLayout from "../src/components/pageLayout";
 import { Container } from "@material-ui/core";
 
 const CinqeTerre = ({ getPage }) => {
-  const pageTitle = getPageTitleProper(getPage);
-  const page = getPageTitle(getPage);
+  const { properPlace, fromRoute } = usePlacesData();
 
   return (
     <div>
       <Head>
-        <title>{`Our Italy Trip | ${pageTitle}`}</title>
+        <title>{`Our Italy Trip | ${properPlace(getPage)}`}</title>
       </Head>
       <Container>
         <PageLayout
-          page={{ page, pageTitle }}
+          page={fromRoute(getPage)}
           imgSrc="/static/img/cinque_terre.jpg"
         />
       </Container>

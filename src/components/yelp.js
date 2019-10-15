@@ -91,7 +91,7 @@ const Yelp = ({ page }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await otherAPI(apiOptions).get(`/${page.pageTitle}`);
+        const { data } = await otherAPI(apiOptions).get(`/${page}`);
         setYelpData(data);
         setIsLoading(false);
       } catch (error) {
