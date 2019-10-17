@@ -11,9 +11,7 @@ const Rome = ({ getPage }) => {
       <Head>
         <title>{`Our Italy Trip | ${properPlace(getPage)}`} </title>
       </Head>
-      <Container>
-        <PageLayout page={fromRoute(getPage)} imgSrc="/static/img/rome.jpg" />
-      </Container>
+      <PageLayout page={fromRoute(getPage)} imgSrc="/static/img/rome.jpg" />
     </div>
   );
 };

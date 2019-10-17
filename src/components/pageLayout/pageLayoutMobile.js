@@ -14,8 +14,22 @@ import Yelp from "../yelp";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "100%",
     marginTop: theme.spacing(2)
+  },
+  expansionRoot: {
+    "&$expanded": {
+      backgroundColor: theme.palette.secondary.main,
+      color: "#fff",
+      minHeight: "0",
+      height: "1.3rem"
+    }
+  },
+  expansionPanel: {
+    margin: ".5rem .3rem"
+  },
+  expanded: {},
+  expansionPanelDetail: {
+    padding: "5px 3px"
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -79,18 +93,23 @@ const PageLayoutMobile = ({ page, imgSrc }) => {
           expanded={expanded === exp.panelTitle}
           onChange={handleChange(exp.panelTitle)}
           key={exp.panelTitle}
+          className={classes.expansionPanel}
         >
           <ExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={<ExpandMoreIcon color="primary" />}
             aria-controls={`${exp.panelTitle}-content`}
             id={`${exp.panelTitle}-header`}
+            classes={{
+              root: classes.expansionRoot,
+              expanded: classes.expanded
+            }}
           >
             <Typography className={classes.heading}>{exp.title}</Typography>
             {/* <Typography className={classes.secondaryHeading}>
               {exp.subTitle}
             </Typography> */}
           </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
+          <ExpansionPanelDetails className={classes.expansionPanelDetail}>
             {exp.component(page, imgSrc)}
           </ExpansionPanelDetails>
         </ExpansionPanel>

@@ -32,9 +32,7 @@ class MyApp extends App {
       <ThemeProvider theme={responsiveFontSizes(theme)}>
         <CssBaseline />
         <Nav />
-        <Container>
-          <Component {...pageProps} />
-        </Container>
+        <Component {...pageProps} />
       </ThemeProvider>
     );
   }
