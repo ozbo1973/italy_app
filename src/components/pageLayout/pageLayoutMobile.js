@@ -105,9 +105,6 @@ const PageLayoutMobile = ({ page, imgSrc }) => {
             }}
           >
             <Typography className={classes.heading}>{exp.title}</Typography>
-            {/* <Typography className={classes.secondaryHeading}>
-              {exp.subTitle}
-            </Typography> */}
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.expansionPanelDetail}>
             {exp.component(page, imgSrc)}

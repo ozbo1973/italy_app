@@ -3,6 +3,8 @@ import Nav from "../src/components/nav/nav";
 import { ThemeProvider } from "@material-ui/styles";
 import { CssBaseline, Container } from "@material-ui/core";
 import { responsiveFontSizes } from "@material-ui/core/styles";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import MomentUtils from "@date-io/moment";
 import theme from "../src/theme";
 
 class MyApp extends App {
@@ -30,9 +32,11 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
     return (
       <ThemeProvider theme={responsiveFontSizes(theme)}>
-        <CssBaseline />
-        <Nav />
-        <Component {...pageProps} />
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <CssBaseline />
+          <Nav />
+          <Component {...pageProps} />
+        </MuiPickersUtilsProvider>
       </ThemeProvider>
     );
   }
