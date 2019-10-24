@@ -27,7 +27,7 @@ export default makeStyles(theme => ({
     padding: theme.spacing(2)
   },
   icon: {
-    fontSize: "4rem",
+    fontSize: "3rem",
     color: theme.palette.primary.main,
     margin: "0 auto"
   },
@@ -62,5 +62,8 @@ export default makeStyles(theme => ({
   },
   collapseWrapper: {
     margin: "0 auto"
+  },
+  success: {
+    backgroundColor: "green"
   }
 }));

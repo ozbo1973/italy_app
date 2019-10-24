@@ -1,5 +1,5 @@
-import { useTableData } from "../../helpers/hooks/useTableData";
-import { usePlacesData, useDataCols } from "../../helpers/hooks/useStaticData";
+import { useTableData, useDataCols } from "../../helpers/hooks/useTableData";
+import { usePlacesData } from "../../helpers/hooks/useStaticData";
 import useStyles from "../../styles/itinerary.style";
 import MaterialTable from "material-table";
 import Paper from "@material-ui/core/Paper";

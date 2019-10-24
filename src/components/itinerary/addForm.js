@@ -1,27 +1,22 @@
-import InputForm from "./form";
-import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
+import { Dialog, DialogTitle, DialogContent, Slide } from "@material-ui/core";
 
-const AddForm = ({ addFormOpen, api, handleOpen, rec, crud, dialogOpts }) => {
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const AddForm = ({ inputForm, dialogOpts: { title, addForm } }) => {
+  const { addFormOpen, onHandleAddFormOpen } = addForm;
   return (
     <Dialog
       open={addFormOpen}
-      //   TransitionComponent={Transition}
+      TransitionComponent={Transition}
       keepMounted
-      onClose={handleOpen}
+      onClose={onHandleAddFormOpen}
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle id="alert-dialog-slide-title">
-        {dialogOpts.title}
-      </DialogTitle>
-      <DialogContent>
-        <InputForm
-          formData={rec}
-          api={api}
-          crud={crud}
-          handleOpen={handleOpen}
-        />
-      </DialogContent>
+      <DialogTitle id="alert-dialog-slide-title">{title}</DialogTitle>
+      <DialogContent>{inputForm}</DialogContent>
     </Dialog>
   );
 };

@@ -1,52 +1,37 @@
-import { useState } from "react";
-import useStyles from "../../styles/itinerary.style";
+import { usePlacesData } from "../../helpers/hooks/useStaticData";
 import { useTableData } from "../../helpers/hooks/useTableData";
+import { usePanelOperations } from "../../helpers/hooks/usePanelOperations";
+import useStyles from "../../styles/itinerary.style";
 import AddForm from "./addForm";
-import {
-  usePlacesData,
-  useFormatDate
-} from "../../helpers/hooks/useStaticData";
+import Header from "./header";
+import Content from "./content";
 import InputForm from "./form";
-import Grid from "@material-ui/core/Grid";
-import { Cancel, Edit, Add, PlaylistAddCheck } from "@material-ui/icons";
+import ActionButtons from "./actionButtons";
 import {
   Container,
   List,
-  ListItem,
-  ListItemText,
-  Collapse,
   CircularProgress,
-  Divider,
-  Fab,
-  IconButton
+  Snackbar,
+  SnackbarContent
 } from "@material-ui/core";
 
-const ItineraryMobile = ({ page }) => {
+const ItineraryMobile = ({ page, apiToUse }) => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
-  const [addFormOpen, handleAddFormOpen] = useState(false);
-  const [selected, setSelected] = useState();
-  const { placeRoute, trip, api } = usePlacesData();
-  const { long, short } = useFormatDate();
-  const apiData = { tbl: api.itin, trip };
-  const pageRoute = placeRoute(page);
-  const [isLoading, tblData, crud] = useTableData({
-    apiData,
-    pageRoute
-  });
-  const handleOpen = id => e => {
-    e.preventDefault();
-    if (!id) {
-      return setOpen(!open);
-    }
-    if (id === selected) {
-      return setSelected(null);
-    }
-    setSelected(id);
-  };
+  const [panel, addForm, snacks] = usePanelOperations(apiToUse);
+  const { pageRoute, apiData } = usePlacesData(page, apiToUse);
+  const [isLoading, tblData, crud] = useTableData({ pageRoute, apiData });
+  const { snackOpen, handleSnackOpen, snackMessage } = snacks;
+  const api = { pageRoute, apiData };
 
-  const onHandleAddFormOpen = () => {
-    handleAddFormOpen(!addFormOpen);
+  const newDataRecord = {
+    rec: {
+      title: "",
+      date: new Date(),
+      description: "",
+      tickets: 2
+    },
+    crud,
+    api
   };
 
   return isLoading ? (
@@ -57,111 +42,69 @@ const ItineraryMobile = ({ page }) => {
     </div>
   ) : (
     <div className={classes.root}>
-      <Grid container>
-        <Grid item xs={4}>
-          <PlaylistAddCheck className={classes.icon} />
-        </Grid>
-        <Grid item xs={8} className={classes.buttonGroup}>
-          <Fab
-            disabled={addFormOpen}
-            onClick={onHandleAddFormOpen}
-            size="small"
-            color="primary"
-            className={classes.fab}
-          >
-            <Add />
-          </Fab>
-          <Fab
-            variant="extended"
-            onClick={handleOpen()}
-            className={classes.fab}
-            size="small"
-          >
-            {open ? <Cancel /> : <Edit />} All
-          </Fab>
-        </Grid>
-        <Divider className={classes.divider} />
-      </Grid>
+      <Header addForm={addForm} panel={panel} />
       <List component="nav" aria-labelledby="nested-itin">
-        {tblData.map((rec, i) => {
-          const isOpen = open || selected === "itinRec_" + i;
+        {tblData.map((rec, recNum) => {
+          const dataRecord = { rec, recNum, crud, api };
 
           return (
-            <div
-              key={`${i}_itinListItem`}
-              className={`${isOpen && classes.listItemRoot}`}
-            >
-              <ListItem
-                id={`itinRec_${i}`}
-                className={`${isOpen && classes.listOpen}`}
-              >
-                <ListItemText>
-                  <Grid container>
-                    <Grid xs={!isOpen && 4} item>
-                      <span
-                        className={`${classes.recData} ${isOpen &&
-                          classes.hide}`}
-                      >
-                        {short(rec.date)}
-                      </span>
-                    </Grid>
-                    <Grid xs={isOpen ? 11 : 7} item>
-                      <span
-                        className={`${classes.recData} ${isOpen &&
-                          classes.recDataOpen}`}
-                      >
-                        {`${isOpen ? `Edit: ${rec.title}` : rec.title}`}
-                      </span>
-                    </Grid>
-                    <Grid xs={1} item>
-                      <IconButton className={`${isOpen && classes.hide}`}>
-                        <Edit
-                          onClick={handleOpen(`itinRec_${i}`)}
-                          color="primary"
-                        />
-                      </IconButton>
-                    </Grid>
-                  </Grid>
-                </ListItemText>
-              </ListItem>
-              <Collapse
-                in={isOpen}
-                timeout="auto"
-                unmountOnExit
-                className={classes.collapseWrapper}
-              >
-                <Grid
-                  container
-                  alignItems="center"
-                  direction="column"
-                  spacing={1}
-                >
-                  <Grid item>
-                    <InputForm
-                      formData={rec}
-                      formAllOpen={open}
-                      recNum={i}
-                      handleOpen={handleOpen}
-                      api={{ pageRoute, apiData }}
-                      crud={crud}
-                      isEditing
-                    />
-                  </Grid>
-                </Grid>
-              </Collapse>
-              <Divider />
-            </div>
+            <Content
+              dataRecord={dataRecord}
+              panel={panel}
+              inputForm={
+                <InputForm
+                  dataRecord={dataRecord}
+                  panel={panel}
+                  snacks={snacks}
+                  isEditing
+                  actionButtons={actions => {
+                    return (
+                      <ActionButtons
+                        isEditing
+                        panel={panel}
+                        dataRecord={dataRecord}
+                        actions={actions}
+                      />
+                    );
+                  }}
+                />
+              }
+            />
           );
         })}
       </List>
       <AddForm
-        addFormOpen={addFormOpen}
-        handleOpen={onHandleAddFormOpen}
-        rec={{ title: "", date: new Date(), description: "", tickets: 2 }}
-        crud={crud}
-        dialogOpts={{ title: "Add New Itinerary" }}
-        api={{ pageRoute, apiData }}
+        dialogOpts={{ title: "Add New Itinerary", addForm }}
+        inputForm={
+          <InputForm
+            dataRecord={newDataRecord}
+            panel={panel}
+            snacks={snacks}
+            actionButtons={actions => (
+              <ActionButtons
+                panel={panel}
+                dataRecord={newDataRecord}
+                actions={actions}
+              />
+            )}
+          />
+        }
       />
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        key={`${"bottom"},${"center"}`}
+        open={snackOpen}
+        autoHideDuration={3000}
+        onClose={handleSnackOpen}
+        ContentProps={{
+          "aria-describedby": "message-id"
+        }}
+      >
+        <SnackbarContent
+          message={<span id="message-id">{snackMessage}</span>}
+          className={classes.success}
+        />
+      </Snackbar>
     </div>
   );
 };

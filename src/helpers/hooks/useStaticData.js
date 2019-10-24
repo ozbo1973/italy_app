@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import moment from "moment";
-import { formatDate } from "../../helpers/pageHelpers";
 
-export const usePlacesData = () => {
+export const usePlacesData = (currentPage, apiToUse) => {
   const places = ["rome", "florence", "cinque terre", "venice"];
   const trip = "italy";
   const api = { itin: "itin", docsData: "docsData", linksdocs: "linksdocs" };
@@ -16,8 +15,20 @@ export const usePlacesData = () => {
 
   const fromRoute = place => place.split("/")[1];
   const placeRoute = place => `/${place}`;
+  const pageRoute = `/${currentPage}`;
+  const apiData = { tbl: api[apiToUse], trip };
 
-  return { places, page, properPlace, fromRoute, placeRoute, trip, api };
+  return {
+    pageRoute,
+    places,
+    page,
+    properPlace,
+    fromRoute,
+    placeRoute,
+    trip,
+    api,
+    apiData
+  };
 };
 
 export const useFormatItalyDate = () => {
@@ -34,41 +45,6 @@ export const useFormatItalyDate = () => {
 
 export const useFormatDate = () => {
   const long = date => moment(date).format("ddd, MMM Do YYYY, h:mm a");
-  const short = date => moment(date).format("MMM D, h:mA");
+  const short = date => moment(date).format("MMM D, h:mmA");
   return { long, short };
-};
-
-const columns = {
-  itin: [
-    {
-      title: "Date",
-      field: "date",
-      type: "datetime",
-      defaultSort: "asc",
-      render: rowData => formatDate(rowData.date)
-    },
-    {
-      title: "Title",
-      field: "title",
-      render: rowData => <strong>{rowData.title}</strong>
-    },
-    {
-      title: "Description",
-      field: "description"
-    },
-    {
-      title: "Tickets Required",
-      field: "tickets",
-      lookup: { 1: "yes", 2: "no" }
-    }
-  ]
-};
-
-export const useDataCols = api => {
-  const [cols, setCols] = useState();
-  useEffect(() => {
-    setCols(columns[api]);
-  }, [api]);
-
-  return [cols];
 };
