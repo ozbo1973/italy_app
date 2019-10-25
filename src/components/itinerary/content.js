@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { Edit } from "@material-ui/icons";
 
-const Content = ({ dataRecord, inputForm, panel }) => {
+const Content = ({ dataRecord, inputForm, panel, apiToUse }) => {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState();
   const { short } = useFormatDate();
@@ -19,16 +19,16 @@ const Content = ({ dataRecord, inputForm, panel }) => {
   const { recNum, rec } = dataRecord;
 
   useEffect(() => {
-    setIsOpen(panelOpen === "itin_all" || panelOpen === "itinRec_" + recNum);
+    setIsOpen(
+      panelOpen === `${apiToUse}_all` ||
+        panelOpen === `${apiToUse}Rec_${recNum}`
+    );
   }, [panelOpen]);
 
   return (
-    <div
-      key={`${recNum}_itinListItem`}
-      className={`${isOpen && classes.listItemRoot}`}
-    >
+    <div className={`${isOpen && classes.listItemRoot}`}>
       <ListItem
-        id={`itinRec_${recNum}`}
+        id={`${apiToUse}Rec_${recNum}`}
         className={`${isOpen && classes.listOpen}`}
       >
         <ListItemText>
@@ -48,7 +48,7 @@ const Content = ({ dataRecord, inputForm, panel }) => {
             </Grid>
             <Grid xs={1} item>
               <IconButton
-                onClick={handleOpenPanel(`itinRec_${recNum}`)}
+                onClick={handleOpenPanel(`${apiToUse}Rec_${recNum}`)}
                 className={`${isOpen && classes.hide}`}
               >
                 <Edit color="primary" />

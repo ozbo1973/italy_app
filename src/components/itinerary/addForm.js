@@ -6,6 +6,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const AddForm = ({ inputForm, dialogOpts: { title, addForm } }) => {
   const { addFormOpen, onHandleAddFormOpen } = addForm;
+
   return (
     <Dialog
       open={addFormOpen}

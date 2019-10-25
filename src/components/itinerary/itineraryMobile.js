@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { usePlacesData } from "../../helpers/hooks/useStaticData";
 import { useTableData } from "../../helpers/hooks/useTableData";
 import { usePanelOperations } from "../../helpers/hooks/usePanelOperations";
@@ -5,8 +6,7 @@ import useStyles from "../../styles/itinerary.style";
 import AddForm from "./addForm";
 import Header from "./header";
 import Content from "./content";
-import InputForm from "./form";
-import ActionButtons from "./actionButtons";
+import DisplayInputForm from "./displayInputForm";
 import {
   Container,
   List,
@@ -22,17 +22,17 @@ const ItineraryMobile = ({ page, apiToUse }) => {
   const [isLoading, tblData, crud] = useTableData({ pageRoute, apiData });
   const { snackOpen, handleSnackOpen, snackMessage } = snacks;
   const api = { pageRoute, apiData };
-
+  const { panelOpen, setDisableEditAll } = panel;
   const newDataRecord = {
-    rec: {
-      title: "",
-      date: new Date(),
-      description: "",
-      tickets: 2
-    },
+    rec: addForm.getNewRecord,
     crud,
-    api
+    api,
+    recNum: "new"
   };
+
+  useEffect(() => {
+    setDisableEditAll(!!panelOpen && panelOpen.split("_")[1] !== "all");
+  }, [panelOpen]);
 
   return isLoading ? (
     <div className={classes.root}>
@@ -42,31 +42,23 @@ const ItineraryMobile = ({ page, apiToUse }) => {
     </div>
   ) : (
     <div className={classes.root}>
-      <Header addForm={addForm} panel={panel} />
+      <Header panel={panel} addForm={addForm} apiToUse={apiToUse} />
       <List component="nav" aria-labelledby="nested-itin">
         {tblData.map((rec, recNum) => {
           const dataRecord = { rec, recNum, crud, api };
 
           return (
             <Content
+              key={`${recNum}_${apiToUse}ListItem`}
               dataRecord={dataRecord}
               panel={panel}
+              apiToUse={apiToUse}
               inputForm={
-                <InputForm
-                  dataRecord={dataRecord}
+                <DisplayInputForm
                   panel={panel}
+                  dataRecord={dataRecord}
                   snacks={snacks}
-                  isEditing
-                  actionButtons={actions => {
-                    return (
-                      <ActionButtons
-                        isEditing
-                        panel={panel}
-                        dataRecord={dataRecord}
-                        actions={actions}
-                      />
-                    );
-                  }}
+                  isEditing={true}
                 />
               }
             />
@@ -76,17 +68,12 @@ const ItineraryMobile = ({ page, apiToUse }) => {
       <AddForm
         dialogOpts={{ title: "Add New Itinerary", addForm }}
         inputForm={
-          <InputForm
-            dataRecord={newDataRecord}
+          <DisplayInputForm
             panel={panel}
+            dataRecord={newDataRecord}
             snacks={snacks}
-            actionButtons={actions => (
-              <ActionButtons
-                panel={panel}
-                dataRecord={newDataRecord}
-                actions={actions}
-              />
-            )}
+            isEditing={false}
+            addForm={addForm}
           />
         }
       />

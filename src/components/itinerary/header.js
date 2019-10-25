@@ -1,14 +1,11 @@
-import { useContext } from "react";
-// import { ItineraryContext } from "../../contexts/intinerary.context";
 import { Grid, Fab, Divider } from "@material-ui/core";
 import { PlaylistAddCheck, Add, Edit, Cancel } from "@material-ui/icons";
 import useStyles from "../../styles/itinerary.style";
 
-const Header = ({ addForm, panel }) => {
+const Header = ({ panel, addForm, apiToUse }) => {
   const classes = useStyles();
-  const { panelOpen, handleOpenPanel } = panel;
+  const { panelOpen, handleOpenPanel, disableEditAll } = panel;
   const { addFormOpen, onHandleAddFormOpen } = addForm;
-  const disabledEditAll = !!panelOpen && panelOpen.split("_")[1] !== "all";
 
   return (
     <Grid container>
@@ -26,13 +23,13 @@ const Header = ({ addForm, panel }) => {
           <Add />
         </Fab>
         <Fab
-          disabled={disabledEditAll}
+          disabled={disableEditAll}
           variant="extended"
-          onClick={handleOpenPanel("itin_all")}
+          onClick={handleOpenPanel(`${apiToUse}_all`)}
           className={classes.fab}
           size="small"
         >
-          {panelOpen === "itin_all" ? <Cancel /> : <Edit />} All
+          {panelOpen === `${apiToUse}_all` ? <Cancel /> : <Edit />} All
         </Fab>
       </Grid>
       <Divider className={classes.divider} />

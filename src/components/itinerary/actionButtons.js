@@ -9,15 +9,44 @@ const useStyles = makeStyles(theme => ({
   hide: { display: "none" }
 }));
 
-const ActionButtons = ({ isEditing, panel, dataRecord, actions }) => {
+const ActionButtons = ({
+  isEditing,
+  panel,
+  dataRecord,
+  values,
+  snacks,
+  addForm
+}) => {
   const classes = useStyles();
   const { handleOpenPanel, allFormOpen } = panel;
-  const { recNum } = dataRecord;
-  const { handleSave, handleDelete } = actions;
-  console.log(allFormOpen);
+  const { recNum, crud } = dataRecord;
+  const { handleSnackOpen } = snacks;
+
+  const handleDelete = async e => {
+    e.persist();
+    await crud.deleteRecord(values);
+    handleOpenPanel()(e);
+    handleSnackOpen("Record Deleted");
+  };
+
   const handleCancel = isEditing
     ? handleOpenPanel(`itinRec_${recNum}`)
-    : () => handleOpen();
+    : () => addForm.onHandleAddFormOpen();
+
+  const handleSave = async e => {
+    e.preventDefault();
+    let message;
+    if (isEditing) {
+      await crud.update(values, values);
+      message = "Record updated";
+    } else {
+      await crud.create(values);
+      addForm.onHandleAddFormOpen();
+      message = "Record Saved";
+    }
+
+    handleSnackOpen(message);
+  };
 
   return (
     <Grid item container>
