@@ -9,7 +9,7 @@ exports.getAlllinksDocs = async (req, res) => {
     });
     res.json(linksDocs);
   } catch (error) {
-    res.send(err);
+    res.send(error);
   }
 };
 

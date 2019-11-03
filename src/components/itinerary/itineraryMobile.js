@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { ItineraryContext } from "../../contexts/intinerary.context";
 import { usePlacesData } from "../../helpers/hooks/useStaticData";
 import { useTableData } from "../../helpers/hooks/useTableData";
 import { usePanelOperations } from "../../helpers/hooks/usePanelOperations";
@@ -15,17 +16,22 @@ import {
   SnackbarContent
 } from "@material-ui/core";
 
-const ItineraryMobile = ({ page, apiToUse }) => {
+const ItineraryMobile = ({ page, config }) => {
   const classes = useStyles();
+  const { itinState } = useContext(ItineraryContext);
+  const { apiToUse, data, errMsg, isLoading } = itinState;
   const [panel, addForm, snacks] = usePanelOperations(apiToUse);
   const { pageRoute, apiData } = usePlacesData(page, apiToUse);
-  const [isLoading, tblData, crud] = useTableData({ pageRoute, apiData });
+  console.log(itinState);
+  // const [isLoading, tblData, crud] = useTableData({ pageRoute, apiData });
+  const crud = null;
   const { snackOpen, handleSnackOpen, snackMessage } = snacks;
   const api = { pageRoute, apiData };
   const { panelOpen, setDisableEditAll } = panel;
   const newDataRecord = {
     rec: addForm.getNewRecord,
     crud,
+    config,
     api,
     recNum: "new"
   };
@@ -34,18 +40,19 @@ const ItineraryMobile = ({ page, apiToUse }) => {
     setDisableEditAll(!!panelOpen && panelOpen.split("_")[1] !== "all");
   }, [panelOpen]);
 
-  return isLoading ? (
+  return isLoading || errMsg ? (
     <div className={classes.root}>
       <Container className={classes.progress}>
         <CircularProgress color="primary" />
+        {errMsg && <div>{errMsg}</div>}
       </Container>
     </div>
   ) : (
     <div className={classes.root}>
       <Header panel={panel} addForm={addForm} apiToUse={apiToUse} />
       <List component="nav" aria-labelledby="nested-itin">
-        {tblData.map((rec, recNum) => {
-          const dataRecord = { rec, recNum, crud, api };
+        {data.map((rec, recNum) => {
+          const dataRecord = { rec, recNum, crud, config, api };
 
           return (
             <Content

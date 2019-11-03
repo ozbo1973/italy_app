@@ -8,7 +8,7 @@ exports.getAllItinerary = async (req, res) => {
     );
     res.json(itins);
   } catch (error) {
-    res.send(err);
+    res.send(error);
   }
 };
 
