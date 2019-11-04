@@ -10,25 +10,26 @@ import {
   Collapse
 } from "@material-ui/core";
 import { Edit } from "@material-ui/icons";
+import { usePanelOps } from "../../helpers/hooks/usePanelOps";
 
-const Content = ({ dataRecord, inputForm, panel, apiToUse }) => {
+const Content = ({ dataRecord, inputForm, panel, config }) => {
   const classes = useStyles();
+  const { rec, recNum } = dataRecord;
+  const { handleOpenPanel } = usePanelOps(config);
   const [isOpen, setIsOpen] = useState();
   const { short } = useFormatDate();
-  const { panelOpen, handleOpenPanel } = panel;
-  const { recNum, rec } = dataRecord;
 
   useEffect(() => {
     setIsOpen(
-      panelOpen === `${apiToUse}_all` ||
-        panelOpen === `${apiToUse}Rec_${recNum}`
+      panel.panelOpen === `${config.apiToUse}_all` ||
+        panel.panelOpen === `${config.apiToUse}Rec_${recNum}`
     );
-  }, [panelOpen]);
+  }, [panel.panelOpen]);
 
   return (
     <div className={`${isOpen && classes.listItemRoot}`}>
       <ListItem
-        id={`${apiToUse}Rec_${recNum}`}
+        id={`${config.apiToUse}Rec_${recNum}`}
         className={`${isOpen && classes.listOpen}`}
       >
         <ListItemText>
@@ -48,7 +49,10 @@ const Content = ({ dataRecord, inputForm, panel, apiToUse }) => {
             </Grid>
             <Grid xs={1} item>
               <IconButton
-                onClick={handleOpenPanel(`${apiToUse}Rec_${recNum}`)}
+                onClick={handleOpenPanel(
+                  `${config.apiToUse}Rec_${recNum}`,
+                  panel.panelOpen
+                )}
                 className={`${isOpen && classes.hide}`}
               >
                 <Edit color="primary" />

@@ -5,9 +5,10 @@ import FormFields from "./formFields";
 const DisplayInputForm = ({
   panel,
   dataRecord,
+  config,
   snacks,
   isEditing,
-  addForm
+  hasAddForm
 }) => {
   return (
     <InputForm
@@ -17,10 +18,11 @@ const DisplayInputForm = ({
         <ActionButtons
           isEditing={isEditing}
           panel={panel}
+          config={config}
           snacks={snacks}
           dataRecord={dataRecord}
           values={values}
-          addForm={addForm && addForm}
+          hasAddForm={hasAddForm}
         />
       )}
       formFields={formProps => (

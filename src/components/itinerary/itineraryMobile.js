@@ -1,13 +1,13 @@
 import { useEffect, useContext } from "react";
 import { ItineraryContext } from "../../contexts/intinerary.context";
-import { usePlacesData } from "../../helpers/hooks/useStaticData";
-import { useTableData } from "../../helpers/hooks/useTableData";
 import { usePanelOperations } from "../../helpers/hooks/usePanelOperations";
 import useStyles from "../../styles/itinerary.style";
 import AddForm from "./addForm";
 import Header from "./header";
 import Content from "./content";
-import DisplayInputForm from "./displayInputForm";
+import InputForm from "./form";
+import ActionButtons from "./actionButtons";
+import FormFields from "./formFields";
 import {
   Container,
   List,
@@ -15,30 +15,27 @@ import {
   Snackbar,
   SnackbarContent
 } from "@material-ui/core";
+import { usePanelOps } from "../../helpers/hooks/usePanelOps";
 
-const ItineraryMobile = ({ page, config }) => {
+const ItineraryMobile = ({ page }) => {
   const classes = useStyles();
-  const { itinState } = useContext(ItineraryContext);
-  const { apiToUse, data, errMsg, isLoading } = itinState;
-  const [panel, addForm, snacks] = usePanelOperations(apiToUse);
-  const { pageRoute, apiData } = usePlacesData(page, apiToUse);
-  console.log(itinState);
-  // const [isLoading, tblData, crud] = useTableData({ pageRoute, apiData });
-  const crud = null;
-  const { snackOpen, handleSnackOpen, snackMessage } = snacks;
-  const api = { pageRoute, apiData };
-  const { panelOpen, setDisableEditAll } = panel;
-  const newDataRecord = {
-    rec: addForm.getNewRecord,
-    crud,
+  const {
     config,
-    api,
-    recNum: "new"
+    data,
+    errMsg,
+    isLoading,
+    panel,
+    isAddFormOpen,
+    snacks
+  } = useContext(ItineraryContext);
+  const { handleSnackOpen } = usePanelOps(config);
+  console.log(isAddFormOpen);
+  const newFormTitle = "Add New Itinerary";
+  const onSnackClose = () => {
+    handleSnackOpen("", snacks.isSnackOpen);
   };
 
-  useEffect(() => {
-    setDisableEditAll(!!panelOpen && panelOpen.split("_")[1] !== "all");
-  }, [panelOpen]);
+  useEffect(() => {}, [panel.panelOpen]);
 
   return isLoading || errMsg ? (
     <div className={classes.root}>
@@ -49,23 +46,32 @@ const ItineraryMobile = ({ page, config }) => {
     </div>
   ) : (
     <div className={classes.root}>
-      <Header panel={panel} addForm={addForm} apiToUse={apiToUse} />
+      <Header panel={panel} isAddFormOpen={isAddFormOpen} config={config} />
       <List component="nav" aria-labelledby="nested-itin">
         {data.map((rec, recNum) => {
-          const dataRecord = { rec, recNum, crud, config, api };
-
           return (
             <Content
-              key={`${recNum}_${apiToUse}ListItem`}
-              dataRecord={dataRecord}
+              key={`${recNum}_${config.apiToUse}ListItem`}
+              dataRecord={{ rec, recNum }}
+              config={config}
               panel={panel}
-              apiToUse={apiToUse}
               inputForm={
-                <DisplayInputForm
-                  panel={panel}
-                  dataRecord={dataRecord}
-                  snacks={snacks}
-                  isEditing={true}
+                <InputForm
+                  dataRecord={{ rec }}
+                  isEditing
+                  actionButtons={values => (
+                    <ActionButtons
+                      isEditing
+                      panel={panel}
+                      config={config}
+                      snacks={snacks}
+                      dataRecord={{ recNum }}
+                      values={values}
+                    />
+                  )}
+                  formFields={formProps => (
+                    <FormFields {...formProps} recNum={recNum} />
+                  )}
                 />
               }
             />
@@ -73,29 +79,40 @@ const ItineraryMobile = ({ page, config }) => {
         })}
       </List>
       <AddForm
-        dialogOpts={{ title: "Add New Itinerary", addForm }}
+        title={newFormTitle}
+        isAddFormOpen={isAddFormOpen}
+        config={config}
         inputForm={
-          <DisplayInputForm
-            panel={panel}
-            dataRecord={newDataRecord}
-            snacks={snacks}
-            isEditing={false}
-            addForm={addForm}
+          <InputForm
+            dataRecord={{ rec: config.newRecord }}
+            actionButtons={values => (
+              <ActionButtons
+                panel={panel}
+                config={config}
+                snacks={snacks}
+                dataRecord={{ recNum: "new" }}
+                values={values}
+                hasAddForm={true}
+              />
+            )}
+            formFields={formProps => (
+              <FormFields {...formProps} recNum={{ recNum: "new" }} />
+            )}
           />
         }
       />
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        key={`${"bottom"},${"center"}`}
-        open={snackOpen}
+        key={`${"bottom"},${"center"}_${config.apiToUse}`}
+        open={snacks.isSnackOpen}
         autoHideDuration={3000}
-        onClose={handleSnackOpen}
+        onClose={onSnackClose}
         ContentProps={{
           "aria-describedby": "message-id"
         }}
       >
         <SnackbarContent
-          message={<span id="message-id">{snackMessage}</span>}
+          message={<span id="message-id">{snacks.snackMsg}</span>}
           className={classes.success}
         />
       </Snackbar>

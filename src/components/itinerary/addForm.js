@@ -1,18 +1,19 @@
 import { Dialog, DialogTitle, DialogContent, Slide } from "@material-ui/core";
+import { usePanelOps } from "../../helpers/hooks/usePanelOps";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const AddForm = ({ inputForm, dialogOpts: { title, addForm } }) => {
-  const { addFormOpen, onHandleAddFormOpen } = addForm;
+const AddForm = ({ inputForm, title, isAddFormOpen, config }) => {
+  const { toggleState } = usePanelOps(config);
 
   return (
     <Dialog
-      open={addFormOpen}
+      open={isAddFormOpen}
       TransitionComponent={Transition}
       keepMounted
-      onClose={onHandleAddFormOpen}
+      onClose={toggleState("ADDFORM_OPEN", isAddFormOpen)}
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >

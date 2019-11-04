@@ -1,11 +1,11 @@
 import { Grid, Fab, Divider } from "@material-ui/core";
 import { PlaylistAddCheck, Add, Edit, Cancel } from "@material-ui/icons";
+import { usePanelOps } from "../../helpers/hooks/usePanelOps";
 import useStyles from "../../styles/itinerary.style";
 
-const Header = ({ panel, addForm, apiToUse }) => {
+const Header = ({ panel, isAddFormOpen, config }) => {
   const classes = useStyles();
-  const { panelOpen, handleOpenPanel, disableEditAll } = panel;
-  const { addFormOpen, onHandleAddFormOpen } = addForm;
+  const { handleOpenPanel, toggleState } = usePanelOps(config);
 
   return (
     <Grid container>
@@ -14,8 +14,8 @@ const Header = ({ panel, addForm, apiToUse }) => {
       </Grid>
       <Grid item xs={8} className={classes.buttonGroup}>
         <Fab
-          disabled={addFormOpen}
-          onClick={onHandleAddFormOpen}
+          disabled={isAddFormOpen}
+          onClick={toggleState("ADDFORM_OPEN", isAddFormOpen)}
           size="small"
           color="primary"
           className={classes.fab}
@@ -23,13 +23,13 @@ const Header = ({ panel, addForm, apiToUse }) => {
           <Add />
         </Fab>
         <Fab
-          disabled={disableEditAll}
+          disabled={panel.disableEditAll}
           variant="extended"
-          onClick={handleOpenPanel(`${apiToUse}_all`)}
+          onClick={handleOpenPanel(`${config.apiToUse}_all`, panel.panelOpen)}
           className={classes.fab}
           size="small"
         >
-          {panelOpen === `${apiToUse}_all` ? <Cancel /> : <Edit />} All
+          {panel.allOpen ? <Cancel /> : <Edit />} All
         </Fab>
       </Grid>
       <Divider className={classes.divider} />

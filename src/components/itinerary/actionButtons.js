@@ -2,6 +2,7 @@ import { crudAPI } from "../../helpers/hooks/useAPI";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, IconButton } from "@material-ui/core";
 import { Save, Delete, Cancel } from "@material-ui/icons";
+import { usePanelOps } from "../../helpers/hooks/usePanelOps";
 
 const useStyles = makeStyles(theme => ({
   buttonGroup: {
@@ -14,14 +15,13 @@ const ActionButtons = ({
   isEditing,
   panel,
   dataRecord,
+  config,
   values,
   snacks,
-  addForm
+  hasAddForm
 }) => {
   const classes = useStyles();
-  const { handleOpenPanel, allFormOpen } = panel;
-  const { recNum, crud, config } = dataRecord;
-  const { handleSnackOpen } = snacks;
+  const { handleOpenPanel, toggleState, handleSnackOpen } = usePanelOps(config);
   const actionConfig = {
     type: "CRUD_OPERATION",
     payload: { req: values }
@@ -31,12 +31,12 @@ const ActionButtons = ({
     e.persist();
     await crudAPI(config, actionConfig, "delete");
     handleOpenPanel()(e);
-    handleSnackOpen("Record Deleted");
+    handleSnackOpen("Record Deleted", snacks.isSnackOpen);
   };
 
   const handleCancel = isEditing
-    ? handleOpenPanel(`itinRec_${recNum}`)
-    : () => addForm.onHandleAddFormOpen();
+    ? handleOpenPanel(`itinRec_${dataRecord.recNum}`, panel.panelOpen)
+    : () => toggleState("ADDFORM_OPEN", hasAddForm);
 
   const handleSave = async e => {
     e.preventDefault();
@@ -46,11 +46,11 @@ const ActionButtons = ({
       message = "Record updated";
     } else {
       await crudAPI(config, actionConfig, "post");
-      addForm.onHandleAddFormOpen();
+      toggleState("ADDFORM_OPEN", hasAddForm);
       message = "Record Saved";
     }
 
-    handleSnackOpen(message);
+    handleSnackOpen(message, snacks.isSnackOpen);
   };
 
   return (
@@ -67,7 +67,7 @@ const ActionButtons = ({
         </IconButton>
         <IconButton
           onClick={handleCancel}
-          className={`${allFormOpen && classes.hide}`}
+          className={`${hasAddForm && classes.hide}`}
         >
           <Cancel color={isEditing ? "primary" : "error"} />
         </IconButton>
