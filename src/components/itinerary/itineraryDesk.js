@@ -1,20 +1,17 @@
-import { useTableData, useDataCols } from "../../helpers/hooks/useTableData";
-import { usePlacesData } from "../../helpers/hooks/useStaticData";
+import { useContext } from "react";
+import { ItineraryContext } from "../../contexts/intinerary.context";
+import { useDataTableCols } from "../../helpers/hooks/useDataColumns";
+import { crudAPI } from "../../helpers/hooks/useAPI";
 import useStyles from "../../styles/itinerary.style";
 import MaterialTable from "material-table";
 import Paper from "@material-ui/core/Paper";
 
 const ItineraryDesk = ({ page }) => {
   const classes = useStyles();
-  const { placeRoute, trip, api } = usePlacesData();
-  const apiData = { tbl: api.itin, trip };
+  const { isLoading, config, data, errMsg } = useContext(ItineraryContext);
   const dataTitle = "Itinerary";
-  const pageRoute = placeRoute(page);
-  const [isLoading, tblData, crud] = useTableData({
-    apiData,
-    pageRoute
-  });
-  const [cols] = useDataCols(apiData.tbl);
+  const cols = useDataTableCols(config.apiToUse);
+  const actionConfig = { type: "CRUD_OPERATION" };
 
   return (
     <Paper className={classes.root}>
@@ -23,19 +20,31 @@ const ItineraryDesk = ({ page }) => {
           isLoading={isLoading}
           title={dataTitle}
           columns={cols}
-          data={tblData}
+          data={data}
           options={{
             sorting: true
           }}
           editable={{
             onRowAdd: async newData => {
-              await crud.create(newData);
+              await crudAPI(
+                config,
+                { ...actionConfig, payload: { req: newData } },
+                "post"
+              );
             },
             onRowUpdate: async (newData, oldData) => {
-              await crud.update(newData, oldData);
+              await crudAPI(
+                config,
+                { ...actionConfig, payload: { req: newData } },
+                "patch"
+              );
             },
             onRowDelete: async oldData => {
-              await crud.deleteRecord(oldData);
+              await crudAPI(
+                config,
+                { ...actionConfig, payload: { req: oldData } },
+                "delete"
+              );
             }
           }}
         />

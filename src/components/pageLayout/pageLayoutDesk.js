@@ -6,6 +6,7 @@ import Yelp from "../yelp";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,31 +20,33 @@ const PageLayoutDesk = ({ page, imgSrc }) => {
   const { properPlace } = usePlacesData();
 
   return (
-    <Grid container direction="column" spacing={5} className={classes.root}>
-      <Grid item container spacing={3}>
-        <Grid item md={3} xs={12} container direction="column">
-          <Grid item container>
-            <Typography variant="h3" component="h1">
-              {`${properPlace(page)}`}
-            </Typography>
+    <Container>
+      <Grid container direction="column" spacing={5} className={classes.root}>
+        <Grid item container spacing={3}>
+          <Grid item lg={4} md={12} container direction="column">
+            <Grid item container>
+              <Typography variant="h3" component="h1">
+                {`${properPlace(page)}`}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Weather page={page} imgSrc={imgSrc} />
+            </Grid>
           </Grid>
-          <Grid item>
-            <Weather page={page} imgSrc={imgSrc} />
+          <Grid item lg={8} md={12}>
+            <Itinerary isDeskTop page={page} />
           </Grid>
         </Grid>
-        <Grid item md={9} xs={12}>
-          <Itinerary page={page} />
+        <Grid item spacing={4} container>
+          <Grid item lg={6} md={12}>
+            <LinksAndDocs isDeskTop page={page} />
+          </Grid>
+          <Grid item lg={6} md={12}>
+            <Yelp isDeskTop page={page} />
+          </Grid>
         </Grid>
       </Grid>
-      <Grid item spacing={4} container>
-        <Grid item md={6} xs={12}>
-          <LinksAndDocs page={page} />
-        </Grid>
-        <Grid item md={6} xs={12}>
-          <Yelp page={page} />
-        </Grid>
-      </Grid>
-    </Grid>
+    </Container>
   );
 };
 

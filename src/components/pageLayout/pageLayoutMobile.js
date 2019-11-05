@@ -47,25 +47,25 @@ const pageComponents = [
     title: "Weather",
     panelTitle: "weather",
     subTitle: "Current and next couple of days weather report.",
-    component: (page, imgSrc) => <Weather page={page} imgSrc={imgSrc} />
+    component: ({ page, imgSrc }) => <Weather page={page} imgSrc={imgSrc} />
   },
   {
     title: "Links / Docs / Photos",
     panelTitle: "linksanddocs",
     subTitle: "List of documents, photos, and useful links.",
-    component: (page, imgSrc) => <LinksAndDocs page={page} />
+    component: ({ page }) => <LinksAndDocs page={page} />
   },
   {
     title: "Itinerary",
     panelTitle: "itinerary",
     subTitle: "Our detailed Itinerary",
-    component: (page, imgSrc) => <Itinerary page={page} />
+    component: ({ page }) => <Itinerary page={page} />
   },
   {
     title: "Places to Eat(Yelp)",
     panelTitle: "yelp",
     subTitle: "list of places to eat in the area.",
-    component: (page, imgSrc) => <Yelp page={page} />
+    component: ({ page }) => <Yelp page={page} />
   }
 ];
 
@@ -107,7 +107,7 @@ const PageLayoutMobile = ({ page, imgSrc }) => {
             <Typography className={classes.heading}>{exp.title}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.expansionPanelDetail}>
-            {exp.component(page, imgSrc)}
+            {exp.component({ page, imgSrc })}
           </ExpansionPanelDetails>
         </ExpansionPanel>
       ))}

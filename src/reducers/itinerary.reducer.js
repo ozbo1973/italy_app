@@ -32,7 +32,6 @@ const reducer = (state, action) => {
       return { ...state, snacks: { isSnackOpen, snackMsg } };
 
     case "UPDATE_CONFIG":
-      console.log("config update", action.payload);
       return {
         ...state,
         config: { ...state.config, dispatch: action.payload }

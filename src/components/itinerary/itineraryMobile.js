@@ -29,7 +29,7 @@ const ItineraryMobile = ({ page }) => {
     snacks
   } = useContext(ItineraryContext);
   const { handleSnackOpen } = usePanelOps(config);
-  console.log(isAddFormOpen);
+
   const newFormTitle = "Add New Itinerary";
   const onSnackClose = () => {
     handleSnackOpen("", snacks.isSnackOpen);

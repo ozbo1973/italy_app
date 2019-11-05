@@ -1,15 +1,12 @@
 import { createContext, useReducer } from "react";
 import { useRouter } from "next/router";
 import itinReducer from "../reducers/itinerary.reducer";
-import { useTheme, useMediaQuery } from "@material-ui/core";
 
 export const ItineraryContext = createContext();
 export const ItineraryDispatch = createContext();
 
 export function ItineraryProvider(props) {
   const router = useRouter();
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   const defaultValue = {
     data: [{}],
@@ -27,8 +24,7 @@ export function ItineraryProvider(props) {
         description: "",
         tickets: 2
       }
-    },
-    isDesktop
+    }
   };
 
   const [itinState, itinDispatch] = useReducer(itinReducer, {

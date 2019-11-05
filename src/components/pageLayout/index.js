@@ -3,19 +3,17 @@ import { ItineraryProvider } from "../../contexts/intinerary.context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import PageLayoutDesk from "./pageLayoutDesk";
 import PageLayoutMobile from "./pageLayoutMobile";
-import Container from "@material-ui/core/Container";
 
 const PageLayout = ({ page, imgSrc }) => {
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down("sm"));
+  const isDeskTop = useMediaQuery(theme.breakpoints.up("md"));
+
   return (
     <ItineraryProvider>
-      {matches ? (
+      {!isDeskTop ? (
         <PageLayoutMobile page={page} imgSrc={imgSrc} />
       ) : (
-        <Container>
-          <PageLayoutDesk page={page} imgSrc={imgSrc} />
-        </Container>
+        <PageLayoutDesk page={page} imgSrc={imgSrc} />
       )}
     </ItineraryProvider>
   );
