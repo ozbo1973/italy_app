@@ -1,6 +1,6 @@
 import { useEffect, useContext } from "react";
 import { ItineraryContext } from "../../contexts/intinerary.context";
-import useStyles from "../../styles/itinerary.style";
+import useStyles from "../../styles/api-datatable.style";
 import { usePanelOps } from "../../helpers/hooks/usePanelOps";
 import Header from "../mobile-panel/header";
 import DisplayContent from "../mobile-panel/displayContent";
