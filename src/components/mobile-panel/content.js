@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useFormatDate } from "../../helpers/hooks/useStaticData";
 import useStyles from "../../styles/itinerary.style";
 import {
@@ -12,19 +11,11 @@ import {
 import { Edit } from "@material-ui/icons";
 import { usePanelOps } from "../../helpers/hooks/usePanelOps";
 
-const Content = ({ dataRecord, inputForm, panel, config }) => {
+const Content = ({ dataRecord, inputForm, panel, config, isOpen }) => {
   const classes = useStyles();
   const { rec, recNum } = dataRecord;
   const { handleOpenPanel } = usePanelOps(config);
-  const [isOpen, setIsOpen] = useState();
   const { short } = useFormatDate();
-
-  useEffect(() => {
-    setIsOpen(
-      panel.panelOpen === `${config.apiToUse}_all` ||
-        panel.panelOpen === `${config.apiToUse}Rec_${recNum}`
-    );
-  }, [panel.panelOpen]);
 
   return (
     <div className={`${isOpen && classes.listItemRoot}`}>

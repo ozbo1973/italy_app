@@ -1,12 +1,10 @@
 import { useEffect, useContext } from "react";
 import { ItineraryContext } from "../../contexts/intinerary.context";
-import { usePanelOperations } from "../../helpers/hooks/usePanelOperations";
 import useStyles from "../../styles/itinerary.style";
-import AddForm from "./addForm";
-import Header from "./header";
-import Content from "./content";
-import InputForm from "./form";
-import ActionButtons from "./actionButtons";
+import { usePanelOps } from "../../helpers/hooks/usePanelOps";
+import Header from "../mobile-panel/header";
+import DisplayContent from "../mobile-panel/displayContent";
+import DisplayAddForm from "../mobile-panel/displayAddForm";
 import FormFields from "./formFields";
 import {
   Container,
@@ -15,9 +13,8 @@ import {
   Snackbar,
   SnackbarContent
 } from "@material-ui/core";
-import { usePanelOps } from "../../helpers/hooks/usePanelOps";
 
-const ItineraryMobile = ({ page }) => {
+const ItineraryMobile = () => {
   const classes = useStyles();
   const {
     config,
@@ -49,57 +46,33 @@ const ItineraryMobile = ({ page }) => {
       <Header panel={panel} isAddFormOpen={isAddFormOpen} config={config} />
       <List component="nav" aria-labelledby="nested-itin">
         {data.map((rec, recNum) => {
+          const isOpen =
+            panel.panelOpen === `${config.apiToUse}_all` ||
+            panel.panelOpen === `${config.apiToUse}Rec_${recNum}`;
+
           return (
-            <Content
+            <DisplayContent
               key={`${recNum}_${config.apiToUse}ListItem`}
               dataRecord={{ rec, recNum }}
               config={config}
+              isOpen={isOpen}
               panel={panel}
-              inputForm={
-                <InputForm
-                  dataRecord={{ rec }}
-                  isEditing
-                  actionButtons={values => (
-                    <ActionButtons
-                      isEditing
-                      panel={panel}
-                      config={config}
-                      snacks={snacks}
-                      dataRecord={{ recNum }}
-                      values={values}
-                    />
-                  )}
-                  formFields={formProps => (
-                    <FormFields {...formProps} recNum={recNum} />
-                  )}
-                />
-              }
+              snacks={snacks}
+              formFields={formProps => (
+                <FormFields {...formProps} recNum={recNum} />
+              )}
             />
           );
         })}
       </List>
-      <AddForm
-        title={newFormTitle}
+      <DisplayAddForm
+        newFormTitle={newFormTitle}
         isAddFormOpen={isAddFormOpen}
         config={config}
-        inputForm={
-          <InputForm
-            dataRecord={{ rec: config.newRecord }}
-            actionButtons={values => (
-              <ActionButtons
-                panel={panel}
-                config={config}
-                snacks={snacks}
-                dataRecord={{ recNum: "new" }}
-                values={values}
-                hasAddForm={true}
-              />
-            )}
-            formFields={formProps => (
-              <FormFields {...formProps} recNum={{ recNum: "new" }} />
-            )}
-          />
-        }
+        snacks={snacks}
+        formFields={formProps => (
+          <FormFields {...formProps} recNum={{ recNum: "new" }} />
+        )}
       />
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
