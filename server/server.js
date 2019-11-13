@@ -12,6 +12,9 @@ const otherAPIRoutes = require("./routes/otherAPIRoutes");
 
 const port = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== "production";
+const dbConnect = dev
+  ? "mongodb://127.0.0.1:27017/trip-app"
+  : process.env.MONGO_URI;
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
@@ -23,7 +26,7 @@ const mongooseOptions = {
 };
 
 mongoose
-  .connect(process.env.MONGO_URI, mongooseOptions)
+  .connect(dbConnect, mongooseOptions)
   .then(() => console.log("DB connected"));
 
 mongoose.connection.on("error", err => {

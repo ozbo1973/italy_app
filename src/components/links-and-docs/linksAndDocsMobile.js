@@ -1,8 +1,8 @@
 import { useEffect, useContext } from "react";
-import { ItineraryContext } from "../../contexts/intinerary.context";
+import { LinksAndDocsContext } from "../../contexts/linksanddocs.context";
 import useStyles from "../../styles/api-datatable.style";
-import { useFormatDate } from "../../helpers/hooks/useStaticData";
 import { usePanelOps } from "../../helpers/hooks/usePanelOps";
+import { useIcons } from "../../helpers/hooks/useIcons";
 import Header from "../mobile-panel/header";
 import FormFields from "./formFields";
 import {
@@ -16,24 +16,24 @@ import Content from "../mobile-panel/content";
 import AddForm from "../mobile-panel/addForm";
 import InputForm from "../mobile-panel/form";
 
-const ItineraryMobile = () => {
+const LinksAndDocsMobile = () => {
   const classes = useStyles();
-  const ctx = useContext(ItineraryContext);
+  const ctx = useContext(LinksAndDocsContext);
   const { config, data, errMsg, isLoading, panel, isAddFormOpen, snacks } = ctx;
   const { handleSnackOpen } = usePanelOps(config);
-  const { short } = useFormatDate();
+  const listItemsData = useIcons("listItemsData");
 
-  const newFormTitle = "Add New Itinerary";
+  const newFormTitle = "Add New Links/Documents";
   const newFormFields = formProps => (
     <FormFields {...formProps} recNum={{ recNum: "new" }} />
   );
   const newDataRecord = { rec: config.newRecord, recNum: "new" };
-
+  console.log(panel);
   const onSnackClose = () => {
     handleSnackOpen("", snacks.isSnackOpen);
   };
 
-  useEffect(() => {}, [isLoading, isAddFormOpen]);
+  useEffect(() => {}, [isLoading]);
 
   return isLoading || errMsg ? (
     <div className={classes.root}>
@@ -45,16 +45,23 @@ const ItineraryMobile = () => {
   ) : (
     <div className={classes.root}>
       <Header panel={panel} isAddFormOpen={isAddFormOpen} config={config} />
-      <List component="nav" aria-labelledby="nested-itin">
+      <List component="nav" aria-labelledby="nested-linksdocs">
         {data.map((rec, recNum) => {
           const isOpen =
             panel.panelOpen === `${config.apiToUse}_all` ||
             panel.panelOpen === `${config.apiToUse}Rec_${recNum}`;
 
+          const icon = listItemsData.filter(
+            item => item.cat === rec.category && item
+          )[0];
+
           const dataRecord = {
             rec,
             recNum,
-            recTitleDisplay: { left: short(rec.date), right: rec.title }
+            recTitleDisplay: {
+              left: icon ? icon.icon : "",
+              right: rec.description
+            }
           };
 
           const formFields = formProps => (
@@ -79,6 +86,7 @@ const ItineraryMobile = () => {
           );
         })}
       </List>
+
       {isAddFormOpen && (
         <AddForm
           title={newFormTitle}
@@ -93,7 +101,6 @@ const ItineraryMobile = () => {
           )}
         />
       )}
-
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         key={`${"bottom"},${"center"}_${config.apiToUse}`}
@@ -113,4 +120,4 @@ const ItineraryMobile = () => {
   );
 };
 
-export default ItineraryMobile;
+export default LinksAndDocsMobile;

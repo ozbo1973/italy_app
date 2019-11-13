@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { usePlacesData } from "../../helpers/hooks/useStaticData";
 import Itinerary from "../itinerary";
 import Weather from "../weather";
-import LinksAndDocs from "../linksAndDocs";
+import LinksAndDocs from "../links-and-docs";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -53,13 +53,13 @@ const pageComponents = [
     title: "Links / Docs / Photos",
     panelTitle: "linksanddocs",
     subTitle: "List of documents, photos, and useful links.",
-    component: ({ page }) => <LinksAndDocs page={page} />
+    component: ({ expanded }) => <LinksAndDocs expanded={expanded} />
   },
   {
     title: "Itinerary",
     panelTitle: "itinerary",
     subTitle: "Our detailed Itinerary",
-    component: ({ page }) => <Itinerary page={page} />
+    component: ({ expanded }) => <Itinerary expanded={expanded} />
   },
   {
     title: "Places to Eat(Yelp)",
@@ -107,7 +107,11 @@ const PageLayoutMobile = ({ page, imgSrc }) => {
             <Typography className={classes.heading}>{exp.title}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.expansionPanelDetail}>
-            {exp.component({ page, imgSrc })}
+            {exp.component({
+              page,
+              imgSrc,
+              expanded: expanded === exp.panelTitle
+            })}
           </ExpansionPanelDetails>
         </ExpansionPanel>
       ))}

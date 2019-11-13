@@ -1,27 +1,32 @@
 import ItineraryDesk from "./itineraryDesk";
 import ItineraryMobile from "./itineraryMobile";
-import { ItineraryDispatch } from "../../contexts/intinerary.context";
-import { ItineraryContext } from "../../contexts/intinerary.context";
+import {
+  ItineraryDispatch,
+  ItineraryContext
+} from "../../contexts/intinerary.context";
 import { getAll } from "../../helpers/hooks/useAPI";
 import { useContext, useEffect } from "react";
 
-const Itinerary = ({ page, isDeskTop }) => {
+const Itinerary = ({ isDeskTop, expanded }) => {
   const itinDispatch = useContext(ItineraryDispatch);
   const { config } = useContext(ItineraryContext);
 
   useEffect(() => {
+    console.log("expanded:", expanded);
     itinDispatch({
       type: "UPDATE_CONFIG",
       payload: itinDispatch
     });
-    (async () =>
-      await getAll(
-        { ...config, dispatch: itinDispatch },
-        { payload: { isLoading: false } }
-      ))();
-  }, []);
+    isDeskTop ||
+      (expanded &&
+        (async () =>
+          await getAll(
+            { ...config, dispatch: itinDispatch },
+            { payload: { isLoading: false } }
+          ))());
+  }, [expanded, isDeskTop]);
 
-  return isDeskTop ? <ItineraryDesk page={page} /> : <ItineraryMobile />;
+  return isDeskTop ? <ItineraryDesk /> : <ItineraryMobile />;
 };
 
 export default Itinerary;

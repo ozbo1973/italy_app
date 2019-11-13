@@ -1,5 +1,8 @@
-import { useFormatDate } from "../../helpers/hooks/useStaticData";
-import useStyles from "../../styles/itinerary.style";
+import { memo } from "react";
+import useStyles from "../../styles/api-datatable.style";
+import { usePanelOps } from "../../helpers/hooks/usePanelOps";
+import InputForm from "./form";
+import ActionButtons from "./actionButtons";
 import {
   ListItem,
   ListItemText,
@@ -9,25 +12,25 @@ import {
   Collapse
 } from "@material-ui/core";
 import { Edit } from "@material-ui/icons";
-import { usePanelOps } from "../../helpers/hooks/usePanelOps";
 
-const Content = ({ dataRecord, inputForm, panel, config, isOpen }) => {
+const Content = ({ ctx, dataRecord, form, isOpen }) => {
   const classes = useStyles();
-  const { rec, recNum } = dataRecord;
-  const { handleOpenPanel } = usePanelOps(config);
-  const { short } = useFormatDate();
+  const { panelOpen } = ctx.panel;
+  const { recNum, recTitleDisplay } = dataRecord;
+  const { apiToUse } = ctx.config;
+  const { handleOpenPanel } = usePanelOps(ctx.config);
 
   return (
     <div className={`${isOpen && classes.listItemRoot}`}>
       <ListItem
-        id={`${config.apiToUse}Rec_${recNum}`}
+        id={`${apiToUse}Rec_${recNum}`}
         className={`${isOpen && classes.listOpen}`}
       >
         <ListItemText>
           <Grid container>
             <Grid xs={!isOpen && 4} item>
               <span className={`${classes.recData} ${isOpen && classes.hide}`}>
-                {short(rec.date)}
+                {recTitleDisplay.left}
               </span>
             </Grid>
             <Grid xs={isOpen ? 11 : 7} item>
@@ -35,15 +38,12 @@ const Content = ({ dataRecord, inputForm, panel, config, isOpen }) => {
                 className={`${classes.recData} ${isOpen &&
                   classes.recDataOpen}`}
               >
-                {`${isOpen ? `Edit: ${rec.title}` : rec.title}`}
+                {`${isOpen ? "Edit: " : ""} ${recTitleDisplay.right}`}
               </span>
             </Grid>
             <Grid xs={1} item>
               <IconButton
-                onClick={handleOpenPanel(
-                  `${config.apiToUse}Rec_${recNum}`,
-                  panel.panelOpen
-                )}
+                onClick={handleOpenPanel(`${apiToUse}Rec_${recNum}`, panelOpen)}
                 className={`${isOpen && classes.hide}`}
               >
                 <Edit color="primary" />
@@ -59,7 +59,7 @@ const Content = ({ dataRecord, inputForm, panel, config, isOpen }) => {
         className={classes.collapseWrapper}
       >
         <Grid container alignItems="center" direction="column" spacing={1}>
-          <Grid item>{inputForm}</Grid>
+          <Grid item>{form(dataRecord)}</Grid>
         </Grid>
       </Collapse>
       <Divider />
@@ -67,4 +67,10 @@ const Content = ({ dataRecord, inputForm, panel, config, isOpen }) => {
   );
 };
 
-export default Content;
+function areEqual(prevProps, nextProps) {
+  const recMatch = prevProps.dataRecord.rec === nextProps.dataRecord.rec;
+  const isOpenMatch = prevProps.isOpen === nextProps.isOpen;
+  return recMatch && isOpenMatch;
+}
+
+export default memo(Content, areEqual);

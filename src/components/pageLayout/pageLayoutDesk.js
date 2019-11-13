@@ -1,7 +1,7 @@
 import { usePlacesData } from "../../helpers/hooks/useStaticData";
 import Weather from "../weather";
 import Itinerary from "../itinerary";
-import LinksAndDocs from "../linksAndDocs";
+import LinksAndDocs from "../links-and-docs";
 import Yelp from "../yelp";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -34,12 +34,12 @@ const PageLayoutDesk = ({ page, imgSrc }) => {
             </Grid>
           </Grid>
           <Grid item lg={8} md={12}>
-            <Itinerary isDeskTop page={page} />
+            <Itinerary isDeskTop />
           </Grid>
         </Grid>
         <Grid item spacing={4} container>
           <Grid item lg={6} md={12}>
-            <LinksAndDocs isDeskTop page={page} />
+            <LinksAndDocs isDeskTop />
           </Grid>
           <Grid item lg={6} md={12}>
             <Yelp isDeskTop page={page} />

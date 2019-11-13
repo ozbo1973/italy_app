@@ -11,11 +11,11 @@ const DisplayContent = ({
   snacks,
   formFields
 }) => {
-  const { rec, recNum } = dataRecord;
+  const { rec, recTitleDisplay, recNum } = dataRecord;
 
   return (
     <Content
-      dataRecord={{ rec, recNum }}
+      dataRecord={{ recTitleDisplay, recNum }}
       config={config}
       panel={panel}
       isOpen={isOpen}

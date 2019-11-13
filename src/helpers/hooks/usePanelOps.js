@@ -8,24 +8,27 @@ export const usePanelOps = config => {
     });
   };
 
-  const handleOpenPanel = (id = "na_0", currentID) => e => {
-    let panelOpen;
+  const handleOpenPanel = (selectedPanel = "na_0", panelOpen) => e => {
+    let panelToOpen;
     e.preventDefault();
-    id === "na_0" || id === currentID ? (panelOpen = null) : (panelOpen = id);
+    panelToOpen =
+      selectedPanel === "na_0" || selectedPanel === panelOpen
+        ? null
+        : selectedPanel;
 
     dispatch({
       type: "OPEN_PANEL",
-      payload: panelOpen
+      payload: panelToOpen
     });
-
+    // console.log(!!panelToOpen, panelToOpen.split("_")[1] !== "all");
     dispatch({
       type: "DISABLE_EDIT_ALL",
-      payload: !!panelOpen && panelOpen.split("_")[1] !== "all"
+      payload: !!panelToOpen && panelToOpen.split("_")[1] !== "all"
     });
 
     dispatch({
       type: "ALL_PANEL_OPEN",
-      payload: panelOpen === `${config.apiToUse}_all`
+      payload: panelToOpen === `${config.apiToUse}_all`
     });
   };
 

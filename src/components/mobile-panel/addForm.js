@@ -5,7 +5,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const AddForm = ({ inputForm, title, isAddFormOpen, config }) => {
+const AddForm = ({ title, ctx, dataRecord, form }) => {
+  const { isAddFormOpen, config } = ctx;
   const { toggleState } = usePanelOps(config);
 
   return (
@@ -18,7 +19,7 @@ const AddForm = ({ inputForm, title, isAddFormOpen, config }) => {
       aria-describedby="alert-dialog-slide-description"
     >
       <DialogTitle id="alert-dialog-slide-title">{title}</DialogTitle>
-      <DialogContent>{inputForm}</DialogContent>
+      <DialogContent>{form(dataRecord)}</DialogContent>
     </Dialog>
   );
 };

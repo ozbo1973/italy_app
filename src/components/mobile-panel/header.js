@@ -1,7 +1,7 @@
 import { Grid, Fab, Divider } from "@material-ui/core";
 import { PlaylistAddCheck, Add, Edit, Cancel } from "@material-ui/icons";
 import { usePanelOps } from "../../helpers/hooks/usePanelOps";
-import useStyles from "../../styles/itinerary.style";
+import useStyles from "../../styles/api-datatable.style";
 
 const Header = ({ panel, isAddFormOpen, config }) => {
   const classes = useStyles();

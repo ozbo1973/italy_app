@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { getPageTitleProper } from "../../helpers/pageHelpers";
+import { useIcons } from "../../helpers/hooks/useIcons";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -13,23 +14,6 @@ import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
 import Button from "@material-ui/core/Button";
 import Fade from "@material-ui/core/Fade";
-import FlightIcon from "@material-ui/icons/Flight";
-import TrainIcon from "@material-ui/icons/Train";
-import HotelIcon from "@material-ui/icons/Hotel";
-import LocalMallIcon from "@material-ui/icons/LocalMall";
-import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-import ExploreIcon from "@material-ui/icons/Explore";
-import LocalBarIcon from "@material-ui/icons/LocalBar";
-
-const listItemsData = [
-  { cat: 1, catName: "flights", icon: <FlightIcon /> },
-  { cat: 2, catName: "trains", icon: <TrainIcon /> },
-  { cat: 3, catName: "lodging", icon: <HotelIcon /> },
-  { cat: 4, catName: "luggage", icon: <LocalMallIcon /> },
-  { cat: 5, catName: "events", icon: <LocalBarIcon /> },
-  { cat: 6, catName: "other", icon: <ExploreIcon /> },
-  { cat: 7, catName: "photos", icon: <PhotoCameraIcon /> }
-];
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -93,6 +77,8 @@ const handleOnClick = (item, router) => {
 const DisplayDesk = () => {
   const router = useRouter();
   const classes = useStyles();
+  const listItemsData = useIcons("listItemsData");
+
   return listItemsData.map(l => (
     <ListItem
       key={`${l.catName}_docsMenuDT`}
@@ -117,6 +103,7 @@ const DisplayMobile = () => {
   const open = Boolean(anchorEl);
   const classes = useStyles();
   const router = useRouter();
+  const listItemsData = useIcons("listItemsData");
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);

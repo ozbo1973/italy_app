@@ -23,6 +23,31 @@ const columns = {
       field: "tickets",
       lookup: { 1: "yes", 2: "no" }
     }
+  ],
+  linksdocs: [
+    {
+      title: "Category",
+      field: "category",
+      lookup: {
+        1: "Flight",
+        2: "Train",
+        3: "Lodging",
+        4: "Luggage",
+        5: "Events",
+        6: "Other",
+        7: "Photos"
+      }
+    },
+    { title: "Description", field: "description" },
+    {
+      title: "View",
+      field: "url",
+      render: rowData => (
+        <a href={rowData.url} target="_blank">
+          click to view
+        </a>
+      )
+    }
   ]
 };
 export const useDataTableCols = apiToUse => columns[apiToUse];

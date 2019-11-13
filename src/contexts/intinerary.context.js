@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
 import { useRouter } from "next/router";
 import itinReducer from "../reducers/itinerary.reducer";
 
@@ -30,6 +30,10 @@ export function ItineraryProvider(props) {
   const [itinState, itinDispatch] = useReducer(itinReducer, {
     ...defaultValue
   });
+
+  useEffect(() => {
+    console.log("render itin context");
+  }, [itinState.isLoading]);
 
   return (
     <ItineraryContext.Provider value={itinState}>
