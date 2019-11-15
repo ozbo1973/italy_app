@@ -12,18 +12,18 @@ const Itinerary = ({ isDeskTop, expanded }) => {
   const { config } = useContext(ItineraryContext);
 
   useEffect(() => {
-    console.log("expanded:", expanded);
+    const getData = async () =>
+      await getAll(
+        { ...config, dispatch: itinDispatch },
+        { payload: { isLoading: false } }
+      );
+
     itinDispatch({
       type: "UPDATE_CONFIG",
       payload: itinDispatch
     });
-    isDeskTop ||
-      (expanded &&
-        (async () =>
-          await getAll(
-            { ...config, dispatch: itinDispatch },
-            { payload: { isLoading: false } }
-          ))());
+
+    (isDeskTop || expanded) && getData();
   }, [expanded, isDeskTop]);
 
   return isDeskTop ? <ItineraryDesk /> : <ItineraryMobile />;

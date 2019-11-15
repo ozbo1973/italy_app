@@ -1,4 +1,5 @@
 import { formatDate } from "../../helpers/pageHelpers";
+import { useIcons } from "./useIcons";
 
 const columns = {
   itin: [
@@ -36,6 +37,15 @@ const columns = {
         5: "Events",
         6: "Other",
         7: "Photos"
+      },
+      cellStyle: {
+        textAlign: "center"
+      },
+      render: rowData => {
+        const iconSet = useIcons("listItemsData");
+        console.log(iconSet, rowData);
+        const icon = iconSet.find(icon => icon.cat === rowData.category);
+        return icon && icon.icon;
       }
     },
     { title: "Description", field: "description" },
