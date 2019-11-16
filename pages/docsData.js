@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import LinksAndDocs from "../src/components/linksAndDocs";
+import LinksAndDocs from "../src/components/links-and-docs";
 import DocsMenu from "../src/components/nav/docsMenu";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
