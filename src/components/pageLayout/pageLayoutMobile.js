@@ -47,7 +47,7 @@ const pageComponents = [
     title: "Weather",
     panelTitle: "weather",
     subTitle: "Current and next couple of days weather report.",
-    component: ({ page, imgSrc }) => <Weather page={page} imgSrc={imgSrc} />
+    component: ({ expanded }) => <Weather expanded={expanded} />
   },
   {
     title: "Links / Docs / Photos",

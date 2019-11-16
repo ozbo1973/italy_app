@@ -43,7 +43,6 @@ const columns = {
       },
       render: rowData => {
         const iconSet = useIcons("listItemsData");
-        console.log(iconSet, rowData);
         const icon = iconSet.find(icon => icon.cat === rowData.category);
         return icon && icon.icon;
       }

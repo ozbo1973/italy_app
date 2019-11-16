@@ -14,7 +14,7 @@ const CinqeTerre = ({ getPage }) => {
       <Container>
         <PageLayout
           page={fromRoute(getPage)}
-          imgSrc="/static/img/cinque_terre.jpg"
+          imgSrc="/static/img/cinque-terre.jpg"
         />
       </Container>
     </div>

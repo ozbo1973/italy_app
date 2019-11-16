@@ -8,6 +8,10 @@ const reducer = (state, action) => {
         errMsg,
         isLoading
       };
+
+    case "GETTING_ALL":
+      return { ...state, isLoading: true };
+
     case "CRUD_OPERATION":
       const { record } = action.payload;
       return { ...state, record };

@@ -33,7 +33,7 @@ export function ItineraryProvider(props) {
 
   useEffect(() => {
     console.log("render itin context");
-  }, [itinState.isLoading]);
+  }, []);
 
   return (
     <ItineraryContext.Provider value={itinState}>

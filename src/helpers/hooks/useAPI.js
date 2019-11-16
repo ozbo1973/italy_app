@@ -1,5 +1,12 @@
 import axios from "axios";
 
+export const otherAPI = ({ api, trip }) =>
+  axios.create({
+    baseURL: `/api/other/${api}/${trip}`
+  });
+
+/* Data Table API Usage */
+
 const dataTableAPI = ({ tbl, trip }) =>
   axios.create({
     baseURL: `/api/${tbl}/${trip}`
@@ -42,6 +49,7 @@ export const crudAPI = async (config, actionConfig, method) => {
 
 export const getAll = async (config, { payload }) => {
   const { dispatch } = config;
+  dispatch({ type: "GETTING_ALL" });
   const data = await handleAPI(config, payload, "get");
 
   return dispatch({

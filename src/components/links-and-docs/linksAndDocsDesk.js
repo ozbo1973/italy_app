@@ -30,11 +30,7 @@ const LinksAndDocsDesk = () => {
       <div className={classes.tableWrapper}>
         <MaterialTable
           isLoading={isLoading}
-          title={
-            <Typography variant="h6" color="secondary">
-              {dataTitle}
-            </Typography>
-          }
+          title={<Typography color="secondary">{dataTitle}</Typography>}
           columns={cols}
           data={data}
           options={{

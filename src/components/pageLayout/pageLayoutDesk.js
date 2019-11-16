@@ -30,7 +30,7 @@ const PageLayoutDesk = ({ page, imgSrc }) => {
               </Typography>
             </Grid>
             <Grid item>
-              <Weather page={page} imgSrc={imgSrc} />
+              <Weather isDeskTop page={page} imgSrc={imgSrc} />
             </Grid>
           </Grid>
           <Grid item lg={8} md={12}>

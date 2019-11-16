@@ -45,6 +45,6 @@ export default makeStyles(theme => ({
     marginLeft: ".5rem"
   },
   forecastSummary: {
-    textIndent: "2.5rem"
+    marginRight: "3.5rem"
   }
 }));

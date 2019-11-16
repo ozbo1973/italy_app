@@ -1,52 +1,37 @@
-import { useState, useEffect } from "react";
-import { otherAPI } from "../../helpers/apis";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useTheme } from "@material-ui/core/styles";
+import { useEffect, useContext } from "react";
+import { otherAPI } from "../../helpers/hooks/useAPI";
 import WeatherDesk from "./weatherDesk";
 import WeatherMobile from "./weatherMobile";
+import {
+  WeatherContext,
+  WeatherContextDispatch
+} from "../../contexts/weather.context";
 
-const Weather = ({ page, imgSrc }) => {
-  const [isLoading, setIsloading] = useState(true);
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("md"));
-  const [weatherData, setWeatherData] = useState({});
-  const apiOptions = { api: "weather", trip: "italy" };
-  const day = { 0: "Today", 1: "Tomorrow", 2: "Next Day" };
+const Weather = ({ isDeskTop, expanded }) => {
+  const { isLoading, pageRoute, api, trip } = useContext(WeatherContext);
+  const dispatch = useContext(WeatherContextDispatch);
 
   useEffect(() => {
     const getData = async () => {
+      await dispatch({ type: "GET_WEATHER" });
+      let data = {};
+      let errMsg = "";
       try {
-        const { data } = await otherAPI(apiOptions).get(`/${page}`);
-        setWeatherData({ currently: data.currently, daily: data.daily });
-        setIsloading(false);
+        data = await otherAPI({ api, trip }).get(pageRoute);
+        data = data.data;
       } catch (error) {
-        setIsloading(true);
-        console.log(error);
+        errMsg = error;
       }
+      dispatch({
+        type: "GOT_WEATHER",
+        payload: { data, errMsg }
+      });
     };
 
-    if (isLoading) {
-      getData();
-    }
-  }, [isLoading]);
+    (isLoading || expanded) && getData();
+  }, [expanded, isDeskTop]);
 
-  return matches ? (
-    <WeatherDesk
-      page={page}
-      imgSrc={imgSrc}
-      weatherData={weatherData}
-      isLoading={isLoading}
-      day={day}
-    />
-  ) : (
-    <WeatherMobile
-      page={page}
-      imgSrc={imgSrc}
-      weatherData={weatherData}
-      isLoading={isLoading}
-      day={day}
-    />
-  );
+  return isDeskTop ? <WeatherDesk /> : <WeatherMobile />;
 };
 
 export default Weather;

@@ -28,7 +28,6 @@ const LinksAndDocsMobile = () => {
     <FormFields {...formProps} recNum={{ recNum: "new" }} />
   );
   const newDataRecord = { rec: config.newRecord, recNum: "new" };
-  console.log(panel);
   const onSnackClose = () => {
     handleSnackOpen("", snacks.isSnackOpen);
   };
