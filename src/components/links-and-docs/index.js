@@ -7,7 +7,7 @@ import {
 import { getAll } from "../../helpers/hooks/useAPI";
 import { useContext, useEffect } from "react";
 
-const LinksAndDocs = ({ isDeskTop, expanded }) => {
+const LinksAndDocs = ({ isDeskTop, expanded, docsData }) => {
   const lndDispatch = useContext(LinksAndDocsDispatch);
   const { config } = useContext(LinksAndDocsContext);
 
@@ -21,8 +21,11 @@ const LinksAndDocs = ({ isDeskTop, expanded }) => {
       type: "UPDATE_CONFIG",
       payload: lndDispatch
     });
-    (isDeskTop || expanded) && getData();
-  }, [expanded, isDeskTop]);
+
+    (isDeskTop || expanded || docsData) &&
+      config.pageRoute !== "/" &&
+      getData();
+  }, [expanded, isDeskTop, config.pageRoute]);
 
   return isDeskTop ? <LinksAndDocsDesk /> : <LinksAndDocsMobile />;
 };

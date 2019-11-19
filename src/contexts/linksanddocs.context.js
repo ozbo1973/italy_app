@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
 import { useRouter } from "next/router";
 import itinReducer from "../reducers/itinerary.reducer";
 
@@ -29,6 +29,10 @@ export function LinksAndDocsProvider(props) {
   const [lndState, lndDispatch] = useReducer(itinReducer, {
     ...defaultValue
   });
+
+  useEffect(() => {
+    console.log("render linksDocs context");
+  }, []);
 
   return (
     <LinksAndDocsContext.Provider value={lndState}>

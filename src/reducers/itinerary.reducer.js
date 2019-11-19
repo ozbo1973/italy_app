@@ -41,6 +41,15 @@ const reducer = (state, action) => {
         config: { ...state.config, dispatch: action.payload }
       };
 
+    case "UPDATE_API":
+      return {
+        ...state,
+        config: {
+          ...state.config,
+          ...action.payload
+        }
+      };
+
     default:
       return state;
   }

@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { usePlacesData } from "../src/helpers/hooks/useStaticData";
+
 import PageLayout from "../src/components/pageLayout";
 import { Container } from "@material-ui/core";
 

@@ -6,6 +6,7 @@ import { responsiveFontSizes } from "@material-ui/core/styles";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 import theme from "../src/theme";
+import { LinksAndDocsProvider } from "../src/contexts/linksanddocs.context";
 
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for
@@ -33,9 +34,11 @@ class MyApp extends App {
     return (
       <ThemeProvider theme={responsiveFontSizes(theme)}>
         <MuiPickersUtilsProvider utils={MomentUtils}>
-          <CssBaseline />
-          <Nav />
-          <Component {...pageProps} />
+          <LinksAndDocsProvider>
+            <CssBaseline />
+            <Nav />
+            <Component {...pageProps} />
+          </LinksAndDocsProvider>
         </MuiPickersUtilsProvider>
       </ThemeProvider>
     );

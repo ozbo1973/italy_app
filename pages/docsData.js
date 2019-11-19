@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { useEffect, useContext } from "react";
+import { LinksAndDocsDispatch } from "../src/contexts/linksanddocs.context";
 import Head from "next/head";
 import LinksAndDocs from "../src/components/links-and-docs";
 import DocsMenu from "../src/components/nav/docsMenu";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Grid, useMediaQuery } from "@material-ui/core/";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -12,16 +12,24 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const DocsData = () => {
+const DocsData = ({ getQuery }) => {
   const classes = useStyles();
-  const router = useRouter();
-  const { category } = router.query;
+  const theme = useTheme();
+  const isDeskTop = useMediaQuery(theme.breakpoints.up("md"));
+  const dispatch = useContext(LinksAndDocsDispatch);
+  const { category } = getQuery;
 
   useEffect(() => {
-    !category && router.push("/");
+    console.log(category);
+    dispatch({
+      type: "UPDATE_API",
+      payload: { apiToUse: "docsData", pageRoute: `/${category}` }
+    });
   }, [category]);
 
-  return (
+  return !category ? (
+    <div>Loading</div>
+  ) : (
     <div>
       <Head>
         <title>{`Docs - Links | ${category}`}</title>
@@ -32,12 +40,16 @@ const DocsData = () => {
             <DocsMenu />
           </Grid>
           <Grid item md={9} xs={12}>
-            <LinksAndDocs page={category} docsData />
+            <LinksAndDocs docsData isDeskTop={isDeskTop} />
           </Grid>
         </Grid>
       </Grid>
     </div>
   );
+};
+
+DocsData.getInitialProps = async ({ query }) => {
+  return { getQuery: query };
 };
 
 export default DocsData;

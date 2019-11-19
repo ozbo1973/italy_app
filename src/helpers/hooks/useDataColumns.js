@@ -57,6 +57,23 @@ const columns = {
         </a>
       )
     }
+  ],
+  docsData: [
+    {
+      title: "Place",
+      field: "place",
+      lookup: { rome: "Rome", florence: "Florence" }
+    },
+    { title: "Description", field: "description" },
+    {
+      title: "View",
+      field: "url",
+      render: rowData => (
+        <a href={rowData.url} target="_blank">
+          click to view
+        </a>
+      )
+    }
   ]
 };
 export const useDataTableCols = apiToUse => columns[apiToUse];
