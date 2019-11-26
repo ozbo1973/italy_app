@@ -6,6 +6,7 @@
     "dev": "nodemon server/server.js --watch server",
     "build": "next build",
     "start": "NODE_ENV=production node server/server.js",
+    "debug": "nodemon server/server.js --inspect",
     "heroku-postbuild": "next build"
   },
   "dependencies": {
@@ -27,6 +28,6 @@
     "react-dom": "16.9.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.3"
+    "nodemon": "^1.19.4"
   }
 }
