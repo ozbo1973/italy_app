@@ -19,7 +19,7 @@ const LinksAndDocs = ({ isDeskTop, expanded, docsData }) => {
       );
     lndDispatch({
       type: "UPDATE_CONFIG",
-      payload: lndDispatch
+      payload: { dispatch: lndDispatch }
     });
 
     (isDeskTop || expanded || docsData) &&

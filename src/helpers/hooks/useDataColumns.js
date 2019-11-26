@@ -62,7 +62,12 @@ const columns = {
     {
       title: "Place",
       field: "place",
-      lookup: { rome: "Rome", florence: "Florence" }
+      lookup: {
+        rome: "Rome",
+        florence: "Florence",
+        venice: "venice",
+        ["cinque-terre"]: "cinque-terre"
+      }
     },
     { title: "Description", field: "description" },
     {

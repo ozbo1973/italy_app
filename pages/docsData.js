@@ -9,6 +9,9 @@ import { Grid, useMediaQuery } from "@material-ui/core/";
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
+  },
+  dataRoot: {
+    marginTop: theme.spacing(4)
   }
 }));
 
@@ -20,9 +23,8 @@ const DocsData = ({ getQuery }) => {
   const { category } = getQuery;
 
   useEffect(() => {
-    console.log(category);
     dispatch({
-      type: "UPDATE_API",
+      type: "UPDATE_CONFIG",
       payload: { apiToUse: "docsData", pageRoute: `/${category}` }
     });
   }, [category]);
@@ -34,13 +36,15 @@ const DocsData = ({ getQuery }) => {
       <Head>
         <title>{`Docs - Links | ${category}`}</title>
       </Head>
-      <Grid container direction="column" spacing={1} className={classes.root}>
-        <Grid item container>
+      <Grid container direction="column" className={classes.root}>
+        <Grid item container spacing={1}>
           <Grid item md={3} xs={12}>
             <DocsMenu />
           </Grid>
           <Grid item md={9} xs={12}>
-            <LinksAndDocs docsData isDeskTop={isDeskTop} />
+            <div className={classes.dataRoot}>
+              <LinksAndDocs docsData isDeskTop={isDeskTop} />
+            </div>
           </Grid>
         </Grid>
       </Grid>

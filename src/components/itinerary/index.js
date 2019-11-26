@@ -20,7 +20,7 @@ const Itinerary = ({ isDeskTop, expanded }) => {
 
     itinDispatch({
       type: "UPDATE_CONFIG",
-      payload: itinDispatch
+      payload: { dispatch: itinDispatch }
     });
 
     (isDeskTop || expanded) && getData();

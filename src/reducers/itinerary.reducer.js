@@ -38,12 +38,6 @@ const reducer = (state, action) => {
     case "UPDATE_CONFIG":
       return {
         ...state,
-        config: { ...state.config, dispatch: action.payload }
-      };
-
-    case "UPDATE_API":
-      return {
-        ...state,
         config: {
           ...state.config,
           ...action.payload

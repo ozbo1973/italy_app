@@ -4,8 +4,8 @@ exports.getAlllinksDocs = async (req, res) => {
   const { place, trip } = req.params;
   try {
     const linksDocs = await LinksDocs.find({
-      trip: trip,
-      place: place.split("-").join("")
+      trip,
+      place
     });
     res.json(linksDocs);
   } catch (error) {

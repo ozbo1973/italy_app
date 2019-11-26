@@ -15,7 +15,7 @@ const PageLayout = ({ page, imgSrc }) => {
   const dispatch = useContext(LinksAndDocsDispatch);
 
   dispatch({
-    type: "UPDATE_API",
+    type: "UPDATE_CONFIG",
     payload: { apiToUse: "linksdocs", pageRoute: pathname }
   });
 
