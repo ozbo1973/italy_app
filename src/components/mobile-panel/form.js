@@ -45,10 +45,10 @@ const InputForm = ({ isEditing, ctx, dataRecord, formFields }) => {
       : { msg: "Saved", apiAction: "post" };
 
     await crudAPI(config, actionConfig, submitConfig.apiAction);
+
     handleSnackOpen(`Record ${submitConfig.msg}`, snacks.isSnackOpen);
 
     if (!isEditing) {
-      setValues(config.newRecord);
       handleOpenPanel(null, panel.panelOpen)(e);
       toggleState("ADDFORM_OPEN", true)();
     }
@@ -87,7 +87,8 @@ const InputForm = ({ isEditing, ctx, dataRecord, formFields }) => {
           values,
           selectedDate,
           handleChange,
-          handleDateChange
+          handleDateChange,
+          config
         })}
       </Grid>
       {!isEditing && (

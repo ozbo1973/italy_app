@@ -20,6 +20,7 @@ export function LinksAndDocsProvider(props) {
       pageRoute: router.pathname,
       newRecord: {
         category: "",
+        place: "",
         description: "",
         url: ""
       }

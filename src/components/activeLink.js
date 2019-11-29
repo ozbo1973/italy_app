@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { makeStyles } from "@material-ui/core/styles";
+import { useEffect } from "react";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,6 +26,10 @@ const ActiveLink = ({ children, href }) => {
   };
   const style =
     pathname === href ? `${classes.root} ${classes.rootActive}` : classes.root;
+
+  useEffect(() => {
+    router.prefetch(href);
+  });
 
   return (
     <span className={style} onClick={handleClick}>

@@ -7,18 +7,41 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FormFields = ({ values, handleChange, recNum }) => {
+const FormFields = ({ values, handleChange, recNum, config }) => {
   const classes = useStyles();
-  const menuOptions = [
-    "Flight",
-    "Train",
-    "Lodging",
-    "Luggage",
-    "Events",
-    "Other",
-    "Photos"
-  ].map((opt, i) => (
-    <MenuItem key={`ff_mi_${opt}`} value={i + 1}>
+  const { apiToUse } = config;
+  const menu = {
+    docsData: {
+      menu: ["rome", "florence", "cinque-terre", "venice"],
+      id: `place${recNum}`,
+      name: "place",
+      label: "Place",
+      helperText: "Select a location",
+      value: values.place
+    },
+    linksdocs: {
+      menu: [
+        "Flight",
+        "Train",
+        "Lodging",
+        "Luggage",
+        "Events",
+        "Other",
+        "Photos"
+      ],
+      id: `category${recNum}`,
+      name: "category",
+      label: "Category",
+      helperText: "Select category of link",
+      value: values.category
+    }
+  };
+
+  const menuOptions = menu[apiToUse].menu.map((opt, i) => (
+    <MenuItem
+      key={`ff_mi_${opt}`}
+      value={apiToUse === "docsData" ? opt : i + 1}
+    >
       {opt}
     </MenuItem>
   ));
@@ -27,18 +50,18 @@ const FormFields = ({ values, handleChange, recNum }) => {
     <>
       <Grid item xs={12}>
         <TextField
-          id={`category${recNum}`}
-          name="category"
+          id={menu[apiToUse].id}
+          name={menu[apiToUse].name}
           select
-          label="Category"
-          value={values.category}
+          label={menu[apiToUse].label}
+          value={menu[apiToUse].value}
           onChange={handleChange}
           SelectProps={{
             MenuProps: {
               className: classes.menu
             }
           }}
-          helperText="Select category of link"
+          helperText={menu[apiToUse].helperText}
           margin="normal"
           variant="outlined"
         >
