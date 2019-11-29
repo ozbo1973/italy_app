@@ -10,7 +10,9 @@ import {
   List,
   CircularProgress,
   Snackbar,
-  SnackbarContent
+  SnackbarContent,
+  Avatar,
+  Typography
 } from "@material-ui/core";
 import Content from "../mobile-panel/content";
 import AddForm from "../mobile-panel/addForm";
@@ -46,6 +48,13 @@ const LinksAndDocsMobile = () => {
       <Header panel={panel} isAddFormOpen={isAddFormOpen} config={config} />
       <List component="nav" aria-labelledby="nested-linksdocs">
         {data.map((rec, recNum) => {
+          const placeImg = (
+            <>
+              <Avatar src={`/static/img/${rec.place}.jpg`} />
+              <Typography variant="body2">{rec.place}</Typography>{" "}
+            </>
+          );
+
           const isOpen =
             panel.panelOpen === `${config.apiToUse}_all` ||
             panel.panelOpen === `${config.apiToUse}Rec_${recNum}`;
@@ -58,7 +67,7 @@ const LinksAndDocsMobile = () => {
             rec,
             recNum,
             recTitleDisplay: {
-              left: icon ? icon.icon : "",
+              left: config.apiToUse === "linksdocs" ? icon.icon : placeImg,
               right: rec.description
             }
           };

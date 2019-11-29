@@ -1,8 +1,6 @@
 import { memo } from "react";
 import useStyles from "../../styles/api-datatable.style";
 import { usePanelOps } from "../../helpers/hooks/usePanelOps";
-import InputForm from "./form";
-import ActionButtons from "./actionButtons";
 import {
   ListItem,
   ListItemText,
