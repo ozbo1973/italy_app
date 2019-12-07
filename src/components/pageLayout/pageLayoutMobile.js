@@ -65,7 +65,7 @@ const pageComponents = [
     title: "Places to Eat(Yelp)",
     panelTitle: "yelp",
     subTitle: "list of places to eat in the area.",
-    component: ({ page }) => <Yelp page={page} />
+    component: ({ expanded }) => <Yelp expanded={expanded} />
   }
 ];
 
