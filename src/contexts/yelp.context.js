@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
 import { useRouter } from "next/router";
 import yelpReducer from "../reducers/yelp.reducer";
 

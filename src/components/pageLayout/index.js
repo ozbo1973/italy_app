@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import { useRouter } from "next/router";
 import { LinksAndDocsDispatch } from "../../contexts/linksanddocs.context";
@@ -7,6 +7,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import PageLayoutDesk from "./pageLayoutDesk";
 import PageLayoutMobile from "./pageLayoutMobile";
 import { WeatherProvider } from "../../contexts/weather.context";
+import { YelpProvider } from "../../contexts/yelp.context";
 
 const PageLayout = ({ page, imgSrc }) => {
   const theme = useTheme();
@@ -22,11 +23,13 @@ const PageLayout = ({ page, imgSrc }) => {
   return (
     <ItineraryProvider>
       <WeatherProvider>
-        {!isDeskTop ? (
-          <PageLayoutMobile page={page} imgSrc={imgSrc} />
-        ) : (
-          <PageLayoutDesk page={page} imgSrc={imgSrc} />
-        )}
+        <YelpProvider>
+          {!isDeskTop ? (
+            <PageLayoutMobile page={page} />
+          ) : (
+            <PageLayoutDesk page={page} />
+          )}
+        </YelpProvider>
       </WeatherProvider>
     </ItineraryProvider>
   );

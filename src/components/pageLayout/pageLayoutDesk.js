@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PageLayoutDesk = ({ page, imgSrc }) => {
+const PageLayoutDesk = ({ page }) => {
   const classes = useStyles();
   const { properPlace } = usePlacesData();
 

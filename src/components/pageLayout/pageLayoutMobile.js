@@ -69,7 +69,7 @@ const pageComponents = [
   }
 ];
 
-const PageLayoutMobile = ({ page, imgSrc }) => {
+const PageLayoutMobile = ({ page }) => {
   const classes = useStyles();
   const { properPlace } = usePlacesData();
   const [expanded, setExpanded] = useState("weather");
@@ -108,8 +108,6 @@ const PageLayoutMobile = ({ page, imgSrc }) => {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.expansionPanelDetail}>
             {exp.component({
-              page,
-              imgSrc,
               expanded: expanded === exp.panelTitle
             })}
           </ExpansionPanelDetails>
