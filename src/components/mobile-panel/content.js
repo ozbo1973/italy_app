@@ -36,7 +36,7 @@ const Content = ({ ctx, dataRecord, form, isOpen }) => {
                 className={`${classes.recData} ${isOpen &&
                   classes.recDataOpen}`}
               >
-                {`${isOpen ? "Edit: " : ""} ${recTitleDisplay.right}`}
+                {`${isOpen ? "Edit: " : ""} `} {recTitleDisplay.right}
               </span>
             </Grid>
             <Grid xs={1} item>

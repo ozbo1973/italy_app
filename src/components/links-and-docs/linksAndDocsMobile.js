@@ -48,6 +48,12 @@ const LinksAndDocsMobile = () => {
       <Header panel={panel} isAddFormOpen={isAddFormOpen} config={config} />
       <List component="nav" aria-labelledby="nested-linksdocs">
         {data.map((rec, recNum) => {
+          const panelLink = (
+            <a href={rec.url} target="_blank" className={classes.panelLink}>
+              {rec.description}
+            </a>
+          );
+
           const placeImg = (
             <>
               <Avatar src={`/static/img/${rec.place}.jpg`} />
@@ -68,7 +74,7 @@ const LinksAndDocsMobile = () => {
             recNum,
             recTitleDisplay: {
               left: config.apiToUse === "linksdocs" ? icon.icon : placeImg,
-              right: rec.description
+              right: panelLink
             }
           };
 

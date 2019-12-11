@@ -65,5 +65,11 @@ export default makeStyles(theme => ({
   },
   success: {
     backgroundColor: "green"
+  },
+  panelLink: {
+    textDecoration: "none",
+    fontSize: "0.8rem",
+    color: theme.palette.primary.main,
+    cursor: "pointer"
   }
 }));
